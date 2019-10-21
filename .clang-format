@@ -1,0 +1,29 @@
+#Custom C++ style
+AlignAfterOpenBracket: DontAlign
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: false
+AlignTrailingComments: true
+AllowShortCaseLabelsOnASingleLine: false
+AlwaysBreakTemplateDeclarations: true
+ConstructorInitializerAllOnOneLineOrOnePerLine: false
+BreakConstructorInitializers: BeforeComma
+DerivePointerAlignment: true
+IndentWidth: 4
+NamespaceIndentation: Inner
+ReflowComments: true
+TabWidth: 4
+UseTab: Never
+ColumnLimit: 80
+
+#Custom brace settings
+BreakBeforeBraces: Custom
+BraceWrapping:
+    AfterClass: true
+    AfterControlStatement: true
+    AfterEnum: true
+    AfterFunction: true
+    AfterNamespace: true
+    AfterStruct: true
+    AfterUnion: true
+    BeforeCatch: true
+    BeforeElse: false
