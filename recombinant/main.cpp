@@ -1,4 +1,4 @@
-﻿//  Copyright(C) 2019 Christopher Johnstone
+﻿//  Copyright(C) 2019. See AUTHORS file for contact information.
 //
 //  This program is free software; you can redistribute itand /or modify
 //  it under the terms of the GNU General Public License as published by
@@ -13,9 +13,6 @@
 //  You should have received a copy of the GNU General Public License along
 //  with this program; if not, write to the Free Software Foundation, Inc.,
 //	51 Franklin Street, Fifth Floor, Boston, MA 02110 - 1301 USA.
-//
-//  Contact information:
-//  Christopher Johnstone (meson800): meson800@gmail.com
 #include <iostream>
 
 int main()
