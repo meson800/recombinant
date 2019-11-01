@@ -1,6 +1,6 @@
 //  Copyright(C) 2019. See AUTHORS file for contact information.
-//  This is free software, licensed under the GPL Version 2 license (or at your option)
-//  a later version. See the LICENSE file for more details.
+//  This is free software, licensed under the GPL Version 2 license (or at your
+//  option) a later version. See the LICENSE file for more details.
 #include "MainApp.h"
 
 bool MainInterface::OnInit()
@@ -8,6 +8,12 @@ bool MainInterface::OnInit()
     MainFrame* frame = new MainFrame();
     frame->Show(true);
     return true;
+}
+
+int MainInterface::OnExit()
+{
+    // Python cleanup
+    return wxApp::OnExit();
 }
 
 MainFrame::MainFrame()
@@ -30,7 +36,10 @@ MainFrame::MainFrame()
     Bind(wxEVT_MENU, &MainFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_MENU, &MainFrame::OnExit, this, wxID_EXIT);
 }
-void MainFrame::OnExit(wxCommandEvent&) { Close(true); }
+void MainFrame::OnExit(wxCommandEvent&)
+{
+    Close(true);
+}
 void MainFrame::OnAbout(wxCommandEvent&)
 {
     wxMessageBox("This is a wxWidgets Hello World example", "About Hello World",

@@ -9,6 +9,7 @@ class MainInterface : public wxApp
 {
   public:
     virtual bool OnInit();
+    virtual int OnExit();
 };
 class MainFrame : public wxFrame
 {
