@@ -1,8 +1,10 @@
+BasedOnStyle: google
 #Custom C++ style
 AlignAfterOpenBracket: DontAlign
-AlignConsecutiveAssignments: false
+AlignConsecutiveAssignments: true
 AlignConsecutiveDeclarations: false
 AlignTrailingComments: true
+AllowShortFunctionsOnASingleLine: false
 AllowShortCaseLabelsOnASingleLine: false
 AlwaysBreakTemplateDeclarations: true
 ConstructorInitializerAllOnOneLineOrOnePerLine: false
@@ -27,3 +29,4 @@ BraceWrapping:
     AfterUnion: true
     BeforeCatch: true
     BeforeElse: false
+    SplitEmptyFunction: false
