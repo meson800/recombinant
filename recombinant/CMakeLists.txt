@@ -5,7 +5,7 @@ cmake_minimum_required (VERSION 3.8)
 
 # Add source to this project's executable.
 if (WIN32)
-	add_executable (recombinant WIN32 "main.cpp")
+	add_executable (recombinant WIN32 main.cpp MainApp.cpp)
 endif()
 
 # Ensure C++11 builds
@@ -16,8 +16,36 @@ find_package(Doxygen)
 find_package(Python3 REQUIRED COMPONENTS Development)
 find_package(wxWidgets REQUIRED COMPONENTS core base)
 
+if (wxWidgets_INCLUDE_DIRS)
+	target_include_directories(recombinant SYSTEM PRIVATE ${wxWidgets_INCLUDE_DIRS})
+endif()
+if (wxWidgets_LIBRARY_DIRS)
+    target_link_directories(recombinant PRIVATE ${wxWidgets_LIBRARY_DIRS})
+endif()
+
+if (wxWidgets_DEFINITIONS)
+	set_property(TARGET recombinant APPEND PROPERTY COMPILE_DEFINITIONS ${wxWidgets_DEFINITIONS})
+endif()
+
+if (wxWidgets_DEFINITIONS_DEBUG)
+    set_property(TARGET recombinant APPEND PROPERTY COMPILE_DEFINITIONS_DEBUG ${wxWidgets_DEFINITIONS_DEBUG})
+endif()
+
+if (wxWidgets_CXX_FLAGS)
+    # Flags are expected to be a string here, not a list.
+    string(REPLACE ";" " " wxWidgets_CXX_FLAGS_str "${wxWidgets_CXX_FLAGS}")
+	target_compile_options(recombinant PRIVATE ${wxWidgets_CXX_FLAGS_str})
+    unset(wxWidgets_CXX_FLAGS_str)
+endif()
+
 # Link against Python dev libraries and wxwidgets
-include(${wxWidgets_USE_FILE})
+target_include_directories(recombinant SYSTEM PRIVATE ${wxWidgets_USE_FILE})
 target_link_libraries(recombinant PRIVATE Python3::Python ${wxWidgets_LIBRARIES})
 
+# Enable more warnings!
+target_compile_options(recombinant PRIVATE
+   $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
+		-Wall -Werror>
+   $<$<CXX_COMPILER_ID:MSVC>:
+		/W4 /WX>)
 # TODO: Add tests and install targets if needed.
