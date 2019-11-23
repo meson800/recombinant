@@ -11,7 +11,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
     - name: Install dependencies
-      run: sudo apt-get install libwxgtk3.0-dev
+      run: sudo apt-get install libwxgtk3.0-dev doxygen
     - name: Create build directory
       run: mkdir build
     - name: Prepare CMake build
