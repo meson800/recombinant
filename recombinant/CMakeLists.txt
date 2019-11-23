@@ -4,8 +4,11 @@
 cmake_minimum_required (VERSION 3.8)
 
 # Add source to this project's executable.
+set(RecombinantSources main.cpp MainApp.cpp)
 if (WIN32)
-	add_executable (recombinant WIN32 main.cpp MainApp.cpp)
+	add_executable (recombinant WIN32 ${RecombinantSources})
+else()
+	add_executable(recombinant ${RecombinantSources})
 endif()
 
 # Ensure C++11 builds
