@@ -19,4 +19,7 @@ jobs:
       run: pwd; cmake ..
     - name: Compile
       working-directory: ./build
-      run: cmake --build . -j 2 -v
+      run: cmake --build .
+	  env:
+		VERBOSE: 1
+		CMAKE_BUILD_PARALLEL_LEVEL: 2
