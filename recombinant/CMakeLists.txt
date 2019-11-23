@@ -3,6 +3,17 @@
 #
 cmake_minimum_required (VERSION 3.8)
 
+# Dependencies
+find_package(Doxygen)
+find_package(Python3 REQUIRED COMPONENTS Development)
+find_package(wxWidgets REQUIRED COMPONENTS core base)
+
+# We have to do library dirs here, because CMake 3.8 doesn't
+# guarantee the target_link_directories command
+if (wxWidgets_LIBRARY_DIRS)
+    link_directories(recombinant PRIVATE ${wxWidgets_LIBRARY_DIRS})
+endif()
+
 # Add source to this project's executable.
 set(RecombinantSources main.cpp MainApp.cpp)
 if (WIN32)
@@ -14,16 +25,9 @@ endif()
 # Ensure C++11 builds
 set_property(TARGET recombinant PROPERTY CXX_STANDARD 11)
 
-# Dependencies
-find_package(Doxygen)
-find_package(Python3 REQUIRED COMPONENTS Development)
-find_package(wxWidgets REQUIRED COMPONENTS core base)
 
 if (wxWidgets_INCLUDE_DIRS)
 	target_include_directories(recombinant SYSTEM PRIVATE ${wxWidgets_INCLUDE_DIRS})
-endif()
-if (wxWidgets_LIBRARY_DIRS)
-    target_link_directories(recombinant PRIVATE ${wxWidgets_LIBRARY_DIRS})
 endif()
 
 if (wxWidgets_DEFINITIONS)
