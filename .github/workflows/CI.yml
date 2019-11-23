@@ -1,0 +1,22 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Install dependencies
+      run: sudo apt-get install libwxgtk3.0-dev
+    - name: Create build directory
+      run: mkdir build
+    - name: Prepare CMake build
+      working-directory: ./build
+      run: pwd; cmake ..
+    - name: Compile
+      working-directory: ./build
+      run: cmake --build . -j 2
