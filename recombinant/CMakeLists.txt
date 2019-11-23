@@ -46,7 +46,6 @@ if (wxWidgets_CXX_FLAGS)
 endif()
 
 # Link against Python dev libraries and wxwidgets
-target_include_directories(recombinant SYSTEM PRIVATE ${wxWidgets_USE_FILE})
 target_link_libraries(recombinant PRIVATE Python3::Python ${wxWidgets_LIBRARIES})
 
 # Enable more warnings!
