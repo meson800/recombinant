@@ -12,29 +12,36 @@ jobs:
       os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v1
-    - name: Install linux dependencies
-      run: sudo apt-get install libwxgtk3.0-dev doxygen
-      if: contains(${{ matrix.os }}, 'ubunutu')
-    - name: Install windows dependencies
-      run: >
-        mkdir download; cd download;
-        wget "https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.3/wxWidgets-3.1.3.zip" 
-        -outfile wxWidgets.zip;
-        $hashFromFile = Get-FileHash -Path wxWidgets.zip -Algorithm SHA256;
-        $v313hash = '6973EDF2D4B748948BA901E99653400CE1C48EDDCA2F1571740A2F20A4C18899';
-        if ($hashFromFile.Hash -ne $v313hash) { exit(1); };
-        unzip wxWidgets.zip
-      shell: pwsh
-    - name: Create build directory
-      run: mkdir build
-    - name: Prepare CMake build
-      working-directory: ./build
-      run: pwd; cmake ..
-    - name: Compile
-      working-directory: ./build
-      run: cmake --build .
-      env:
-        VERBOSE: 1
-        CMAKE_BUILD_PARALLEL_LEVEL: 2
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Install dependencies (Linux)
+        run: sudo apt-get install libwxgtk3.0-dev doxygen
+        if: contains(${{ matrix.os }}, 'ubunutu')
+      - name: Download windows dependencies
+        run: >
+          mkdir download; cd download;
+          wget "https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.3/wxWidgets-3.1.3.zip" 
+          -outfile wxWidgets.zip;
+          $hashFromFile = Get-FileHash -Path wxWidgets.zip -Algorithm SHA256;
+          $v313hash = '6973EDF2D4B748948BA901E99653400CE1C48EDDCA2F1571740A2F20A4C18899';
+          if ($hashFromFile.Hash -ne $v313hash) { exit(1); };
+          unzip wxWidgets.zip
+        shell: pwsh
+      - name: Compile wxWidgets (Windows)
+        run: >
+          C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Auxiliary\Build\vcvars64.bat;
+          cd download\build\msw;
+          nmake /f makefile.vc BUILD=release TARGET_CPU=X64;
+          nmake /f makefile.vc TARGET_CPU=X64;
+        shell: cmd
+      - name: Create build directory
+        run: mkdir build
+      - name: Prepare CMake build
+        working-directory: ./build
+        run: pwd; cmake ..
+      - name: Compile
+        working-directory: ./build
+        run: cmake --build .
+        env:
+          VERBOSE: 1
+          CMAKE_BUILD_PARALLEL_LEVEL: 2
