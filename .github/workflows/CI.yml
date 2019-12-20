@@ -31,10 +31,10 @@ jobs:
         if: matrix.os == 'windows-latest'
       - name: Compile wxWidgets (Windows)
         run: >
-          "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat";
-          cd download\build\msw;
-          nmake /f makefile.vc BUILD=release TARGET_CPU=X64;
-          nmake /f makefile.vc TARGET_CPU=X64;
+          CALL "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat" &&
+          cd build\msw &&
+          nmake /f makefile.vc BUILD=release TARGET_CPU=X64 &&
+          nmake /f makefile.vc TARGET_CPU=X64
         shell: cmd
         if: matrix.os == 'windows-latest'
       - name: Create build directory
