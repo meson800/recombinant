@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v1
       - name: Install dependencies (Linux)
         run: sudo apt-get install libwxgtk3.0-dev doxygen
-        if: contains(${{ matrix.os }}, 'ubunutu')
+        if: contains(matrix.os, 'ubunutu')
       - name: Download windows dependencies
         run: >
           mkdir download; cd download;
@@ -26,6 +26,7 @@ jobs:
           if ($hashFromFile.Hash -ne $v313hash) { exit(1); };
           unzip wxWidgets.zip
         shell: pwsh
+        if: contains(matrix.os, 'windows')
       - name: Compile wxWidgets (Windows)
         run: >
           C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Auxiliary\Build\vcvars64.bat;
@@ -33,6 +34,7 @@ jobs:
           nmake /f makefile.vc BUILD=release TARGET_CPU=X64;
           nmake /f makefile.vc TARGET_CPU=X64;
         shell: cmd
+        if: contains(matrix.os, 'windows')
       - name: Create build directory
         run: mkdir build
       - name: Prepare CMake build
