@@ -58,3 +58,22 @@ jobs:
         env:
           VERBOSE: 1
           CMAKE_BUILD_PARALLEL_LEVEL: 2
+      - name: Save binaries (Linux)
+        uses: actions/upload-artifact@v1
+        with:
+          name: recombinant-linux
+          path: build/recombinant/recombinant
+        if: matrix.os == 'ubuntu-latest'
+      - name: Save binaries (Mac)
+        uses: actions/upload-artifact@v1
+        with:
+          name: recombinant-macos
+          path: build/recombinant/recombinant
+        if: matrix.os == 'macos-latest'
+      - name: Save binaries (Windows)
+        uses: actions/upload-artifact@v1
+        with:
+          name: recombinant-windows
+          path: build\recombinant\Debug\recombinant.exe
+        if: matrix.os == 'windows-latest'
+
