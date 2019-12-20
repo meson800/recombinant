@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies (Mac)
         run: >
           mkdir download; cd download; wget "https://distfiles.macports.org/MacPorts/MacPorts-2.6.2-10.15-Catalina.pkg";
-          sudo installer -pkg MacPorts-2.6.2-10.15-Catalina.pkg;
+          sudo installer -pkg MacPorts-2.6.2-10.15-Catalina.pkg -target /;
           sudo /opt/local/bin/port install wxWidgets-3.2;
           sudo /opt/local/bin/port select --set wxWidgets wxWidgets-3.2
         if: matrix.os == 'macos-latest'
