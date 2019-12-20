@@ -11,8 +11,6 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Report job OS
-        run: echo "${{ matrix.os }}"
       - name: Checkout
         uses: actions/checkout@v1
       - name: Install dependencies (Linux)
@@ -42,9 +40,12 @@ jobs:
           cd download\build\msw &&
           nmake /f makefile.vc BUILD=release TARGET_CPU=X64 &&
           nmake /f makefile.vc TARGET_CPU=X64 &&
-          cd ..\..\..\ &&
-          move download C:\wxWidgets
+          cd ..\..\..\
         shell: cmd
+        if: matrix.os == 'windows-latest'
+      - name: Move wxWidgets into place (Windows)
+        run: mv download C:\wxWidgets
+        shell: pwsh
         if: matrix.os == 'windows-latest'
       - name: Create build directory
         run: mkdir build
