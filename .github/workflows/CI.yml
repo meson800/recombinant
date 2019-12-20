@@ -6,7 +6,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     runs-on: ${{ matrix.os }}
 
@@ -18,6 +18,13 @@ jobs:
       - name: Install dependencies (Linux)
         run: sudo apt-get install libwxgtk3.0-dev doxygen
         if: matrix.os == 'ubuntu-latest'
+      - name: Install dependencies (Mac)
+        run: >
+          mkdir download; cd download; wget "https://distfiles.macports.org/MacPorts/MacPorts-2.6.2-10.15-Catalina.pkg";
+          sudo installer -pkg MacPorts-2.6.2-10.15-Catalina.pkg;
+          sudo /opt/local/bin/port install wxWidgets-3.2;
+          sudo /opt/local/bin/port select --set wxWidgets wxWidgets-3.2
+        if: matrix.os == 'macos-latest'
       - name: Download dependencies (Windows)
         run: >
           mkdir download; cd download;
