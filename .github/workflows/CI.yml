@@ -11,6 +11,8 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
+      - name: Report job OS
+        run: echo "${{ matrix.os }}"
       - name: Checkout
         uses: actions/checkout@v1
       - name: Install dependencies (Linux)
