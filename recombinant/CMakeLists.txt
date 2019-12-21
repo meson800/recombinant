@@ -13,7 +13,7 @@ if (wxWidgets_LIBRARY_DIRS)
 endif()
 
 # Add source to this project's executable.
-set(RecombinantSources main.cpp MainApp.cpp)
+set(RecombinantSources main.cpp)
 if (WIN32)
 	add_executable (recombinant WIN32 ${RecombinantSources})
 else()
