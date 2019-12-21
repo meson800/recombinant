@@ -6,6 +6,29 @@ if (WIN32)
   string(REGEX REPLACE ".$" "x" MSVC_TOOLSET_VERSION ${MSVC_TOOLSET_VERSION})
   message(STATUS "Toolset path for wxWidgets: ${MSVC_TOOLSET_VERSION}")
 endif()
+
+# Setup git revision information
+include(GetGitRevisionDescription)
+
+# Extract version information from Git
+git_describe(VERSION --dirty=-dirty)
+git_get_exact_tag(VERSION_EXACT)
+string(REGEX REPLACE "^v([0-9]+)\\..*" "\\1" VERSION_MAJOR "${VERSION}")
+string(REGEX REPLACE "^v[0-9]+\\.([0-9]+).*" "\\1" VERSION_MINOR "${VERSION}")
+string(REGEX REPLACE "^v[0-9]+\\.[0-9]+\\.([0-9]+).*" "\\1" VERSION_PATCH "${VERSION}")
+string(REGEX REPLACE "^v[0-9]+\\.[0-9]+\\.[0-9]+(.*)" "\\1" VERSION_SHA1 "${VERSION}")
+set(VERSION_SHORT "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
+
+if (git_get_exact_tag)
+  set(VERSION_STRING "${VERSION_EXACT}")
+else()
+  set(VERSION_STRING "${VERSION}")
+endif()
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/version.cpp.in ${CMAKE_CURRENT_BINARY_DIR}/version.cpp)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/version.h ${CMAKE_CURRENT_BINARY_DIR}/version.h)
+set(VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/version.cpp")
+
 find_package(Doxygen)
 find_package(Python3 REQUIRED COMPONENTS Development)
 find_package(wxWidgets REQUIRED COMPONENTS core base)
@@ -20,9 +43,9 @@ endif()
 # Add source to this project's executable.
 set(RecombinantSources main.cpp)
 if (WIN32)
-	add_executable (recombinant WIN32 ${RecombinantSources})
+	add_executable (recombinant WIN32 ${RecombinantSources} ${VERSION_FILE})
 else()
-	add_executable(recombinant ${RecombinantSources})
+	add_executable(recombinant ${RecombinantSources} ${VERSION_FILE})
 endif()
 
 # Ensure C++11 builds

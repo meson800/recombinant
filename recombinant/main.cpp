@@ -17,6 +17,7 @@
 // wxWidgets "Hello World" Program
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx_headers.h"
+#include "version.h"
 class MyApp : public wxApp
 {
    public:
@@ -69,7 +70,7 @@ void MyFrame::OnExit(wxCommandEvent&)
 }
 void MyFrame::OnAbout(wxCommandEvent&)
 {
-    wxMessageBox("This is a wxWidgets Hello World example", "About Hello World",
+    wxMessageBox(version_string, "About Hello World",
         wxOK | wxICON_INFORMATION);
 }
 void MyFrame::OnHello(wxCommandEvent&)
