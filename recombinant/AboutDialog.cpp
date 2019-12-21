@@ -1,5 +1,7 @@
 #include "AboutDialog.h"
 
+#include <algorithm>
+
 #include "strings.h"
 #include "version.h"
 
