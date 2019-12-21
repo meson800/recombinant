@@ -40,18 +40,18 @@ jobs:
           $releasePDBHash = Get-FileHash -Path wxRelease_pdb.7z -Algorithm SHA256;
           $v313SourceKnown = '6973EDF2D4B748948BA901E99653400CE1C48EDDCA2F1571740A2F20A4C18899';
           $v313DevKnown = 'CC812F3BAFBA1A8920CD6617E40C7F177EA6C17E23745986D7589D366A3B77C4';
-          $v313ReleaseDLLKnown = 'BF7A06B6B5E59209D862795F98A834DCEC74F051BE46F9187206B0250DA67375'
-          $v313ReleasePDBKnown = 'E47D60E779F792E739EE4F312DB36A7710CEB47565E4D2F508C8B230090315C5'
+          $v313ReleaseDLLKnown = 'BF7A06B6B5E59209D862795F98A834DCEC74F051BE46F9187206B0250DA67375';
+          $v313ReleasePDBKnown = 'E47D60E779F792E739EE4F312DB36A7710CEB47565E4D2F508C8B230090315C5';
           if ($sourceHash.Hash -ne $v313SourceKnown) { exit(1); };
           if ($devDLLHash.Hash -ne $v313DevKnown) { exit(1); };
           if ($releaseDLLHash.Hash -ne $v313ReleaseDLLKnown) { exit(1); };
           if ($releasePDBHash.Hash -ne $v313ReleasePDBKnown) { exit(1); };
-          unzip wxWidgets.zip
+          unzip wxWidgets.zip;
           7z x wxDev_dll.7z;
           7z x wxRelease_dll.7z;
           7z x wxRelease_pdb.7z;
           cd ../;
-          mv download C:\wxWidgets
+          mv download C:\wxWidgets;
         shell: pwsh
         if: matrix.os == 'windows-latest'
       - name: Create build directory
