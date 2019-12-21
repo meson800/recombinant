@@ -7,6 +7,7 @@
 // because MSVC doesn't have a concept of limiting warnings on some includes.
 #ifdef _MSC_VER
 #pragma warning(disable : 4996)
+#pragma warning(disable : 4251)
 #pragma warning(push, 0)
 #endif
 
@@ -14,8 +15,10 @@
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
 #endif
+#include <wx/notebook.h>
 
 #ifdef _MSC_VER
 #pragma warning(default : 4996)
+#pragma warning(default : 4251)
 #pragma warning(pop)
 #endif

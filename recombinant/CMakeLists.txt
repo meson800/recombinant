@@ -46,7 +46,7 @@ if (wxWidgets_LIBRARY_DIRS)
 endif()
 
 # Add source to this project's executable.
-set(RecombinantSources main.cpp)
+set(RecombinantSources main.cpp AboutDialog.cpp)
 if (WIN32)
 	add_executable (recombinant WIN32 ${RecombinantSources} ${VERSION_FILE})
 else()

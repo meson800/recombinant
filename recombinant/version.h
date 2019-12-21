@@ -1,5 +1,5 @@
 #pragma once
 
-extern const char* version_string;
-extern const char* license_string;
-extern const char* authors_string;
+extern const char* VERSION_STRING;
+extern const char* LICENSE_STRING;
+extern const char* AUTHORS_STRING;
