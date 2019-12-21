@@ -46,7 +46,7 @@ jobs:
           if ($devDLLHash.Hash -ne $v313DevKnown) { exit(1); };
           if ($releaseDLLHash.Hash -ne $v313ReleaseDLLKnown) { exit(1); };
           if ($releasePDBHash.Hash -ne $v313ReleasePDBKnown) { exit(1); };
-          unzip wxWidgets.zip;
+          unzip wxWidgets_source.zip;
           7z x wxDev_dll.7z;
           7z x wxRelease_dll.7z;
           7z x wxRelease_pdb.7z;
