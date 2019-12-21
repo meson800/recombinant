@@ -1,9 +1,9 @@
 #include "version.h"
 
-extern const char* version_string = R"~~~(
+const char* version_string = R"~~~(
 @VERSION_STRING@
 )~~~";
-extern const char* license_string = R"~~~(
+const char* license_string = R"~~~(
                     GNU GENERAL PUBLIC LICENSE
                        Version 2, June 1991
 
@@ -14,6 +14,6 @@ extern const char* license_string = R"~~~(
 
  See the included LICENSE file for a complete copy of the license.
 )~~~";
-extern const char* authors_string = R"~~~(
+const char* authors_string = R"~~~(
 @AUTHORS_STRING@
 )~~~";
