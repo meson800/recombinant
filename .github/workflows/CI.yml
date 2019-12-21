@@ -27,24 +27,31 @@ jobs:
         run: >
           mkdir download; cd download;
           Invoke-WebRequest "https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.3/wxWidgets-3.1.3.zip" 
-          -outfile wxWidgets.zip;
-          $hashFromFile = Get-FileHash -Path wxWidgets.zip -Algorithm SHA256;
-          $v313hash = '6973EDF2D4B748948BA901E99653400CE1C48EDDCA2F1571740A2F20A4C18899';
-          if ($hashFromFile.Hash -ne $v313hash) { exit(1); };
+          -outfile wxWidgets_source.zip;
+          Invoke-WebRequest "https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.3/wxMSW-3.1.3_vc14x_x64_Dev.7z"
+          -outfile wxDev_dll.7z;
+          Invoke-WebRequest "https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.3/wxMSW-3.1.3_vc14x_x64_ReleaseDLL.7z"
+          -outfile wxRelease_dll.7z;
+          Invoke-WebRequest "https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.3/wxMSW-3.1.3_vc14x_x64_ReleasePDB.7z"
+          -outfile wxRelease_pdb.7z;
+          $sourceHash = Get-FileHash -Path wxWidgets_source.zip -Algorithm SHA256;
+          $devDLLHash = Get-FileHash -Path wxDev_dll.7z -Algorithm SHA256;
+          $releaseDLLHash = Get-FileHash -Path wxRelease_dll.7z -Algorithm SHA256;
+          $releasePDBHash = Get-FileHash -Path wxRelease_pdb.7z -Algorithm SHA256;
+          $v313SourceKnown = '6973EDF2D4B748948BA901E99653400CE1C48EDDCA2F1571740A2F20A4C18899';
+          $v313DevKnown = 'CC812F3BAFBA1A8920CD6617E40C7F177EA6C17E23745986D7589D366A3B77C4';
+          $v313ReleaseDLLKnown = 'BF7A06B6B5E59209D862795F98A834DCEC74F051BE46F9187206B0250DA67375'
+          $v313ReleasePDBKnown = 'E47D60E779F792E739EE4F312DB36A7710CEB47565E4D2F508C8B230090315C5'
+          if ($sourceHash.Hash -ne $v313SourceKnown) { exit(1); };
+          if ($devDLLHash.Hash -ne $v313DevKnown) { exit(1); };
+          if ($releaseDLLHash.Hash -ne $v313ReleaseDLLKnown) { exit(1); };
+          if ($releasePDBHash.Hash -ne $v313ReleasePDBKnown) { exit(1); };
           unzip wxWidgets.zip
-        shell: pwsh
-        if: matrix.os == 'windows-latest'
-      - name: Compile wxWidgets (Windows)
-        run: >
-          CALL "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat" &&
-          cd download\build\msw &&
-          nmake /f makefile.vc BUILD=release TARGET_CPU=X64 RUNTIME_LIBS=static &&
-          nmake /f makefile.vc TARGET_CPU=X64 RUNTIME_LIBS=static &&
-          cd ..\..\..\
-        shell: cmd
-        if: matrix.os == 'windows-latest'
-      - name: Move wxWidgets into place (Windows)
-        run: mv download C:\wxWidgets
+          7z x wxDev_dll.7z;
+          7z x wxRelease_dll.7z;
+          7z x wxRelease_pdb.7z;
+          cd ../;
+          mv download C:\wxWidgets
         shell: pwsh
         if: matrix.os == 'windows-latest'
       - name: Create build directory
