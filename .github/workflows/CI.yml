@@ -78,6 +78,7 @@ jobs:
         with:
           name: recombinant-windows-release
           path: build_collect
+        if: matrix.os == 'windows-latest'
       - name: Save binaries (Linux)
         uses: actions/upload-artifact@v1
         with:
