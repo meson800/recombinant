@@ -48,6 +48,31 @@ else()
 	add_executable(recombinant ${RecombinantSources} ${VERSION_FILE})
 endif()
 
+# If on windows, copy DLLs into output directory
+if (WIN32)
+  set(wxp "C:\\wxWidgets\\lib\\vc14x_x64_dll\\")
+  if (CMAKE_BUILD_TYPE MATCHES Debug)
+    set(debug_files 
+      "${wxp}wxbase313ud_vc14x_x64.dll"
+      "${wxp}wxbase313ud_vc14x_x64.pdb"
+      "${wxp}wxmsw313ud_aui_vc14x_x64.dll"
+      "${wxp}wxmsw313ud_aui_vc14x_x64.pdb"
+      "${wxp}wxmsw313ud_core_vc14x_x64.dll"
+      "${wxp}wxmsw313ud_core_vc14x_x64.pdb")
+    add_custom_command(TARGET recombinant POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${debug_files} $<TARGET_FILE_DIR:recombinant>)
+  else()
+    set(release_files 
+      "${wxp}wxbase313u_vc14x_x64.dll"
+      "${wxp}wxmsw313u_aui_vc14x_x64.dll"
+      "${wxp}wxmsw313u_core_vc14x_x64.dll")
+    add_custom_command(TARGET recombinant POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${release_files} $<TARGET_FILE_DIR:recombinant>)
+  endif()
+endif()
+
 # Ensure C++11 builds
 set_property(TARGET recombinant PROPERTY CXX_STANDARD 11)
 
@@ -61,7 +86,7 @@ target_compile_options(recombinant PRIVATE
 		-Wall -Werror>
    $<$<CXX_COMPILER_ID:MSVC>:
 		/W4 /WX>)
-# TODO: Add tests and install targets if needed.
+
 if (WIN32)
     string (REGEX REPLACE "/W3" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 endif()
