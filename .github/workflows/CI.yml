@@ -54,34 +54,16 @@ jobs:
           mv download C:\wxWidgets;
         shell: pwsh
         if: matrix.os == 'windows-latest'
-      - name: Create build directory
-        run: mkdir build
-      - name: Prepare CMake build
-        working-directory: ./build
-        run: pwd; cmake ..
+      - name: Create build directories
+        run: mkdir build; mkdir build_release;
+      - name: Prepare CMake builds
+        run: cd build; cmake ..; cd ../build_release; cmake ..
       - name: Compile
         working-directory: ./build
-        run: cmake --build .
+        run: cd build; cmake --build .; cd ../build_release; cmake --build . --config release
         env:
           VERBOSE: 1
           CMAKE_BUILD_PARALLEL_LEVEL: 2
-      - name: Compile in release mode (Windows)
-        run: >
-          mkdir build_release; cd build_release; cmake ..;
-          cmake --build . --config release;
-          mkdir ../build_collect; cp recombinant\Release\recombinant.exe ..\build_collect\;
-          cd ../; 7z C:\wxWidgets\wxRelease_dll.7z x -o build_collect;
-        shell: pwsh
-        if: matrix.os == 'windows-latest'
-        env:
-          VERBOSE: 1
-          CMAKE_BUILD_PARALLEL_LEVEL: 2
-      - name: Save release binaries (Windows)
-        uses: actions/upload-artifact@v1
-        with:
-          name: recombinant-windows-release
-          path: build_collect
-        if: matrix.os == 'windows-latest'
       - name: Save binaries (Linux)
         uses: actions/upload-artifact@v1
         with:
@@ -100,4 +82,9 @@ jobs:
           name: recombinant-windows
           path: build\recombinant\Debug\recombinant.exe
         if: matrix.os == 'windows-latest'
-
+      - name: Save release binaries (Windows)
+        uses: actions/upload-artifact@v1
+        with:
+          name: recombinant-windows-release
+          path: build_release\recombinant\Release\recombinant.exe
+        if: matrix.os == 'windows-latest'
