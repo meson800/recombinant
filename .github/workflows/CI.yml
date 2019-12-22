@@ -65,7 +65,7 @@ jobs:
         env:
           VERBOSE: 1
           CMAKE_BUILD_PARALLEL_LEVEL: 2
-      - name: Build release built (Windows)
+      - name: Compile in release mode (Windows)
         run: >
           mkdir build_release; cd build_release; cmake ..;
           cmake --build . --config=release;
