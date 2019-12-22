@@ -36,7 +36,7 @@ set(VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/version.cpp")
 
 find_package(Doxygen)
 find_package(Python3 REQUIRED COMPONENTS Development)
-find_package(wxWidgets REQUIRED COMPONENTS core base)
+find_package(wxWidgets REQUIRED COMPONENTS core base aui)
 
 
 # We have to do library dirs here, because CMake 3.8 doesn't

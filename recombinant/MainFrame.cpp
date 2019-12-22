@@ -1,11 +1,14 @@
 #include "MainFrame.h"
 
-#include "ids.h"
+#include "wx/aui/aui.h"
+
 #include "AboutDialog.h"
+#include "ids.h"
 
 MainFrame::MainFrame()
     : wxFrame(NULL, wxID_ANY, "Hello World")
 {
+    manager.SetManagedWindow(this);
     wxMenu* menuFile = new wxMenu;
     menuFile->Append(GUI_IDS::ID_Hello, "&Hello...\tCtrl-H",
         "Help string shown in status bar for this menu item");
@@ -23,15 +26,23 @@ MainFrame::MainFrame()
     Bind(wxEVT_MENU, &MainFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_MENU, &MainFrame::OnExit, this, wxID_EXIT);
 }
+
+MainFrame::~MainFrame()
+{
+    manager.UnInit();
+}
+
 void MainFrame::OnExit(wxCommandEvent&)
 {
     Close(true);
 }
+
 void MainFrame::OnAbout(wxCommandEvent&)
 {
     AboutDialog* about = new AboutDialog(this);
     about->Show();
 }
+
 void MainFrame::OnHello(wxCommandEvent&)
 {
     wxLogMessage("Hello world from wxWidgets!");
