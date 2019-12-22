@@ -82,9 +82,9 @@ jobs:
           path: build\recombinant\Debug\recombinant.exe
         if: matrix.os == 'windows-latest'
       - name: Zip release binaries (Windows)
-        run: 7z a recombinant_release.zip recombinant.exe *.dll
+        run: 7z a recombinant_release_cibuild.zip recombinant.exe *.dll
         shell: pwsh
-        working-directory: build_release\recombinant\Release\recombinant
+        working-directory: build_release\recombinant\Release\
         if: matrix.os == 'windows-latest'
       - name: Save release binaries (Windows)
         uses: actions/upload-artifact@v1
