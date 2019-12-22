@@ -62,3 +62,6 @@ target_compile_options(recombinant PRIVATE
    $<$<CXX_COMPILER_ID:MSVC>:
 		/W4 /WX>)
 # TODO: Add tests and install targets if needed.
+if (WIN32)
+    string (REGEX REPLACE "/W3" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+endif()
