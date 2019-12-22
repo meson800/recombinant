@@ -59,7 +59,6 @@ jobs:
       - name: Prepare CMake builds
         run: cd build; cmake ..; cd ../build_release; cmake ..
       - name: Compile
-        working-directory: ./build
         run: cd build; cmake --build .; cd ../build_release; cmake --build . --config release
         env:
           VERBOSE: 1
