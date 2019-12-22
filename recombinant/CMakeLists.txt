@@ -2,6 +2,13 @@
 # project specific logic here.
 #
 # Dependencies
+
+# Locate the runtime DLLs we need
+if (WIN32)
+  set(CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS_SKIP)
+  include(InstallRequiredSystemLibraries)
+endif()
+
 if (WIN32)
   string(REGEX REPLACE ".$" "x" MSVC_TOOLSET_VERSION ${MSVC_TOOLSET_VERSION})
   message(STATUS "Toolset path for wxWidgets: ${MSVC_TOOLSET_VERSION}")
@@ -70,6 +77,10 @@ if (WIN32)
     add_custom_command(TARGET recombinant POST_BUILD
       COMMAND ${CMAKE_COMMAND} -E copy_if_different
         ${release_files} $<TARGET_FILE_DIR:recombinant>)
+    # And copy over runtime into a specific folder for release builds
+    add_custom_command(TARGET recombinant POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy_if_different
+      ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS} $<TARGET_FILE_DIR:recombinant>)
   endif()
 endif()
 
