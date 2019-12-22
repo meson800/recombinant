@@ -90,5 +90,5 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: recombinant-windows-release
-          path: build_release\recombinant\Release\recombinant.exe
+          path: build_release\recombinant\Release\recombinant_release_cibuild.zip
         if: matrix.os == 'windows-latest'
