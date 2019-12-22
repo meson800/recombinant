@@ -68,11 +68,14 @@ jobs:
       - name: Compile in release mode (Windows)
         run: >
           mkdir build_release; cd build_release; cmake ..;
-          cmake --build . --config=release;
+          cmake --build . --config release;
           mkdir ../build_collect; cp recombinant\Release\recombinant.exe ..\build_collect\;
           cd ../; 7z C:\wxWidgets\wxRelease_dll.7z x -o build_collect;
         shell: pwsh
         if: matrix.os == 'windows-latest'
+        env:
+          VERBOSE: 1
+          CMAKE_BUILD_PARALLEL_LEVEL: 2
       - name: Save release binaries (Windows)
         uses: actions/upload-artifact@v1
         with:
