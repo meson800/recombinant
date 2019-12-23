@@ -16,6 +16,7 @@ ReflowComments: true
 TabWidth: 4
 UseTab: Never
 ColumnLimit: 80
+AccessModifierOffset: -4
 
 #Custom brace settings
 BreakBeforeBraces: Custom
