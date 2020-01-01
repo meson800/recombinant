@@ -10,5 +10,8 @@ file(READ AUTHORS AUTHORS_STRING)
 
 project ("recombinant")
 
+enable_testing()
+
 # Include sub-projects.
-add_subdirectory ("recombinant")
+add_subdirectory("api")
+add_subdirectory("recombinant")
