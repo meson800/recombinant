@@ -1,4 +1,4 @@
-set (API_SOURCES GenbankFlatFile.cpp FileFormat.cpp)
+set (API_SOURCES GenbankFlatFile.cpp FastaFile.cpp FileFormat.cpp)
 
 add_library(recombinant_api_obj OBJECT ${API_SOURCES})
 set_property(TARGET recombinant_api_obj PROPERTY CXX_STANDARD 11)

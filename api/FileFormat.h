@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+
 #include "Sequence.h"
 namespace recombinant
 {
@@ -49,8 +50,8 @@ namespace api
         /**
          * Given a filename, outputs Sequence(s) based on reading the file.
          *
-         * This is a convience override that creates a istream from the filename,
-         * then trying to repeatedly import sequences until finished.
+         * This is a convience override that creates a istream from the
+         * filename, then trying to repeatedly import sequences until finished.
          *
          * This is useful for file formats that may contain several sequences
          * in a single file.
@@ -67,23 +68,24 @@ namespace api
          *
          * This is the function that inherited file types should use!
          */
-        virtual Sequence importFile(std::istream& stream,
-            ImportFlags flags = ImportFlags::None) = 0;
+        virtual Sequence importFile(
+            std::istream& stream, ImportFlags flags = ImportFlags::None) = 0;
 
         /**
          * Given a filename and a Sequence, exports the Sequence to that file.
          *
-         * This is a convienence override that creates an ostream from the filename
+         * This is a convienence override that creates an ostream from the
+         * filename
          */
         virtual void exportSequence(const std::string& filename,
             const Sequence& sequence, ExportFlags flags = ExportFlags::None);
-        
+
         /**
-         * Given a filename and a vector of Sequences, exports them to 
+         * Given a filename and a vector of Sequences, exports them to
          * the same filename.
          *
          * This function may be overriden to return FileExportErrors
-         * in file formats that do not allow multiple sequences in 
+         * in file formats that do not allow multiple sequences in
          * a single file.
          */
         virtual void exportSequences(const std::string& filename,
@@ -126,6 +128,26 @@ namespace api
             const Sequence& sequence,
             ExportFlags flags = ExportFlags::None) override;
     };
-    
+
+    /**
+     * Handles import/export to the FASTA file format.
+     *
+     * This format is *not* a full-featured file format! It cannot
+     * handle features!
+     *
+     * Reference docs:
+     * https://www.ncbi.nlm.nih.gov/BLAST/fasta.shtml
+     * https://zhanglab.ccmb.med.umich.edu/FASTA/
+     */
+    class FastaFile : public FileFormat
+    {
+    public:
+        virtual Sequence importFile(std::istream& stream,
+            ImportFlags flags = ImportFlags::None) override;
+        virtual void exportSequence(std::ostream& stream,
+            const Sequence& sequence,
+            ExportFlags flags = ExportFlags::None) override;
+    };
+
 }  // namespace api
 }  // namespace recombinant
