@@ -5,12 +5,12 @@ namespace recombinant
 namespace api
 {
     Sequence GenbankFlatFile::importFile(
-        const std::string& filename, ImportFlags flags)
+        std::istream& stream, ImportFlags flags)
     {
         return Sequence();
     }
 
-    void GenbankFlatFile::exportSequence(const std::string& filename,
+    void GenbankFlatFile::exportSequence(std::ostream& stream,
         const Sequence& sequence, ExportFlags flags)
     {}
 }  // namespace api

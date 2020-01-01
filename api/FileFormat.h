@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include "Sequence.h"
 namespace recombinant
 {
@@ -48,21 +49,40 @@ namespace api
         /**
          * Given a filename, outputs a Sequence based on reading the file.
          *
+         * This is a convience override that creates a istream from the filename
+         */
+        virtual Sequence importFile(
+            const std::string& filename, ImportFlags flags = ImportFlags::None);
+
+        /**
+         * Given a std::istream, outputs a Sequence based on reading the file.
+         *
          * Throws a FileImportError if the file cannot be imported with the
          * desired set of flags. The default import flags is none (e.g.
          * requiring that the import follows the strict specification)
+         *
+         * This is the function that inherited file types should use!
          */
-        virtual Sequence importFile(const std::string& filename,
+        virtual Sequence importFile(std::istream& stream,
             ImportFlags flags = ImportFlags::None) = 0;
+
         /**
-         * Given a filename without extension and a Sequence, writes the
+         * Given a filename and a Sequence, exports the Sequence to that file.
+         *
+         * This is a convienence override that creates an ostream from the filename
+         */
+        virtual void exportSequence(const std::string& filename,
+            const Sequence& sequence, ExportFlags flags = ExportFlags::None);
+
+        /**
+         * Given a std::ostream and a Sequence, writes the
          * sequence to the file. ExportFlags that are set allow imports
          * that remove some information about the full sequence.
          *
          * If the sequence cannot be exported under the current ExportFlags,
          * this raises a FileExportError.
          */
-        virtual void exportSequence(const std::string& filename,
+        virtual void exportSequence(std::ostream& stream,
             const Sequence& sequence,
             ExportFlags flags = ExportFlags::None) = 0;
     };
@@ -84,9 +104,9 @@ namespace api
     class GenbankFlatFile : public FileFormat
     {
     public:
-        virtual Sequence importFile(const std::string& filename,
+        virtual Sequence importFile(std::istream& stream,
             ImportFlags flags = ImportFlags::None) override;
-        virtual void exportSequence(const std::string& filename,
+        virtual void exportSequence(std::ostream& stream,
             const Sequence& sequence,
             ExportFlags flags = ExportFlags::None) override;
     };
