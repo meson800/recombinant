@@ -47,11 +47,15 @@ namespace api
         };
 
         /**
-         * Given a filename, outputs a Sequence based on reading the file.
+         * Given a filename, outputs Sequence(s) based on reading the file.
          *
-         * This is a convience override that creates a istream from the filename
+         * This is a convience override that creates a istream from the filename,
+         * then trying to repeatedly import sequences until finished.
+         *
+         * This is useful for file formats that may contain several sequences
+         * in a single file.
          */
-        virtual Sequence importFile(
+        virtual std::vector<Sequence> importFile(
             const std::string& filename, ImportFlags flags = ImportFlags::None);
 
         /**
@@ -73,6 +77,18 @@ namespace api
          */
         virtual void exportSequence(const std::string& filename,
             const Sequence& sequence, ExportFlags flags = ExportFlags::None);
+        
+        /**
+         * Given a filename and a vector of Sequences, exports them to 
+         * the same filename.
+         *
+         * This function may be overriden to return FileExportErrors
+         * in file formats that do not allow multiple sequences in 
+         * a single file.
+         */
+        virtual void exportSequences(const std::string& filename,
+            const std::vector<Sequence> sequences,
+            ExportFlags = ExportFlags::None);
 
         /**
          * Given a std::ostream and a Sequence, writes the
