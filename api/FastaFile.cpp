@@ -58,7 +58,8 @@ namespace api
             // end
             if (line.size() == 0)
             {
-                done = readingSeq; // If we aren't in reading mode, just ignore this line
+                done = readingSeq;  // If we aren't in reading mode, just ignore
+                                    // this line
                 continue;
             }
 
@@ -84,7 +85,19 @@ namespace api
     void FastaFile::exportSequence(
         std::ostream& stream, const Sequence& sequence, ExportFlags flags)
     {
-        stream << ">" << sequence.name << "|" << sequence.description << "\n";
+        stream << ">" << sequence.name;
+        if (sequence.description.size() != 0)
+        {
+            stream << "|" << sequence.description;
+        }
+        stream << "\n";
+        // Export the sequence, wrapped to 80 characters per line.
+        size_t len = sequence.sequence.size();
+        for (size_t i = 0; i < len; i += 80)
+        {
+            size_t end = (i + 80 > len) ? len : (i + 80);
+            stream << sequence.getSpan(i, end) << "\n";
+        }
     }
 
     TEST_CASE("Fasta format: DNA import")
@@ -154,7 +167,8 @@ namespace api
         std::istringstream stream("blahblah\n>Test|description\nATCG");
         FastaFile converter;
         CHECK_THROWS_AS(converter.importFileSingle(stream), FileImportError);
-        Sequence import = converter.importFileSingle(stream, FileFormat::ImportFlags::Permissive);
+        Sequence import = converter.importFileSingle(
+            stream, FileFormat::ImportFlags::Permissive);
 
         Sequence compare;
         compare.name        = "Test";
@@ -163,6 +177,58 @@ namespace api
         compare.sequence =
             Sequence::typedStringToSeq("ATCG", Sequence::Type::DNA);
         CHECK_EQ(import, compare);
+    }
+
+    TEST_CASE("Fasta format import/exports properly:")
+    {
+        FastaFile converter;
+
+        auto seqToStr = [&converter](const Sequence& seq) {
+            std::ostringstream builder;
+            converter.exportSequence(builder, seq);
+            return builder.str();
+        };
+
+        SUBCASE("Single simple file:")
+        {
+            std::string testStr = ">Test|more description\nATCG\n";
+            std::istringstream stream(testStr);
+
+            std::string out = seqToStr(converter.importFileSingle(stream));
+            CHECK_EQ(testStr, out);
+        }
+
+        SUBCASE("Single long file:")
+        {
+            std::ostringstream buildstr;
+            buildstr << ">Test long\n";
+            for (size_t i = 0; i < 5; ++i)
+            {
+                for (size_t j = 0; j < 20; ++j)
+                {
+                    buildstr << "ATCG";
+                }
+                buildstr << "\n";
+            }
+
+            std::string testStr = buildstr.str();
+            std::istringstream stream(testStr);
+
+            std::string out = seqToStr(converter.importFileSingle(stream));
+            CHECK_EQ(testStr, out);
+        }
+
+        SUBCASE("Multiple sequences")
+        {
+            std::istringstream stream(
+                ">Test1\nATCG\n>Test2\nAUCG\n>Test3\nABCDEF");
+            std::vector<Sequence> sequences = converter.importFile(stream);
+            REQUIRE_EQ(sequences.size(), 3);
+
+            CHECK_EQ(seqToStr(sequences[0]), ">Test1\nATCG\n");
+            CHECK_EQ(seqToStr(sequences[1]), ">Test2\nAUCG\n");
+            CHECK_EQ(seqToStr(sequences[2]), ">Test3\nABCDEF\n");
+        }
     }
 }  // namespace api
 };  // namespace recombinant
