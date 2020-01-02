@@ -60,6 +60,14 @@ namespace api
             const std::string& filename, ImportFlags flags = ImportFlags::None);
 
         /**
+         * Given a input stream, attempts to read several sequences from a
+         * single file. If this is overriden in subclasses, the file format
+         * cannot import/export multiple sequences in a single file.
+         */
+        virtual std::vector<Sequence> importFile(
+            std::istream& stream, ImportFlags flags = ImportFlags::None);
+
+        /**
          * Given a std::istream, outputs a Sequence based on reading the file.
          *
          * Throws a FileImportError if the file cannot be imported with the
@@ -68,7 +76,7 @@ namespace api
          *
          * This is the function that inherited file types should use!
          */
-        virtual Sequence importFile(
+        virtual Sequence importFileSingle(
             std::istream& stream, ImportFlags flags = ImportFlags::None) = 0;
 
         /**
@@ -84,13 +92,23 @@ namespace api
          * Given a filename and a vector of Sequences, exports them to
          * the same filename.
          *
+         */
+        virtual void exportSequences(const std::string& filename,
+            const std::vector<Sequence>& sequences,
+            ExportFlags = ExportFlags::None);
+
+        /**
+         * Given an output stream and a vector of Sequences, exports them
+         * to the same stream.
+         *
          * This function may be overriden to return FileExportErrors
          * in file formats that do not allow multiple sequences in
          * a single file.
          */
-        virtual void exportSequences(const std::string& filename,
-            const std::vector<Sequence> sequences,
+        virtual void exportSequences(std::ostream& stream,
+            const std::vector<Sequence>& sequences,
             ExportFlags = ExportFlags::None);
+
 
         /**
          * Given a std::ostream and a Sequence, writes the
@@ -122,7 +140,7 @@ namespace api
     class GenbankFlatFile : public FileFormat
     {
     public:
-        virtual Sequence importFile(std::istream& stream,
+        virtual Sequence importFileSingle(std::istream& stream,
             ImportFlags flags = ImportFlags::None) override;
         virtual void exportSequence(std::ostream& stream,
             const Sequence& sequence,
@@ -142,7 +160,7 @@ namespace api
     class FastaFile : public FileFormat
     {
     public:
-        virtual Sequence importFile(std::istream& stream,
+        virtual Sequence importFileSingle(std::istream& stream,
             ImportFlags flags = ImportFlags::None) override;
         virtual void exportSequence(std::ostream& stream,
             const Sequence& sequence,

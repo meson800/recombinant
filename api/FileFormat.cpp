@@ -10,10 +10,16 @@ namespace api
         const std::string& filename, ImportFlags flags)
     {
         std::ifstream stream(filename);
+        return importFile(stream, flags);
+    }
+
+    std::vector<Sequence> FileFormat::importFile(
+        std::istream& stream, ImportFlags flags)
+    {
         std::vector<Sequence> output;
         while (!stream.eof())
         {
-            output.push_back(this->importFile(stream, flags));
+            output.push_back(this->importFileSingle(stream, flags));
         }
         return output;
     }
@@ -25,9 +31,15 @@ namespace api
     }
 
     void FileFormat::exportSequences(const std::string& filename,
-        std::vector<Sequence> sequences, ExportFlags flags)
+        const std::vector<Sequence>& sequences, ExportFlags flags)
     {
         std::ofstream stream(filename);
+        exportSequences(stream, sequences, flags);
+    }
+
+    void FileFormat::exportSequences(std::ostream& stream,
+        const std::vector<Sequence>& sequences, ExportFlags flags)
+    {
         for (Sequence seq : sequences)
         {
             this->exportSequence(stream, seq, flags);

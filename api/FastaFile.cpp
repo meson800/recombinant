@@ -7,7 +7,7 @@ namespace recombinant
 {
 namespace api
 {
-    Sequence FastaFile::importFile(std::istream& stream, ImportFlags flags)
+    Sequence FastaFile::importFileSingle(std::istream& stream, ImportFlags flags)
     {
         Sequence result;
 
@@ -77,7 +77,7 @@ namespace api
     {
         std::istringstream stream(">Test|with description\nATTCGACGTACCA");
         FastaFile converter;
-        Sequence fastaSeq = converter.importFile(stream);
+        Sequence fastaSeq = converter.importFileSingle(stream);
 
         Sequence compare;
         compare.name        = "Test";
@@ -92,7 +92,7 @@ namespace api
     {
         std::istringstream stream(">Test with a long name, no description\nA");
         FastaFile converter;
-        Sequence fastaSeq = converter.importFile(stream);
+        Sequence fastaSeq = converter.importFileSingle(stream);
 
         CHECK_EQ(fastaSeq.name, "Test with a long name, no description");
         CHECK_EQ(fastaSeq.description.size(), 0);
@@ -102,7 +102,7 @@ namespace api
     {
         std::istringstream stream(">Test\nATTCGACGA\nGGATACACATA\nACATTAGAAAG");
         FastaFile converter;
-        Sequence fastaSeq = converter.importFile(stream);
+        Sequence fastaSeq = converter.importFileSingle(stream);
 
         Sequence compare;
         compare.name = "Test";
