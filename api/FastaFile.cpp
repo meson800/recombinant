@@ -27,11 +27,11 @@ namespace api
                     // Read in the name of this sequence
                     readingSeq = true;
                     std::getline(stream, line);
-                    line.erase(0);  // remove leading >
+                    line.erase(0, 1);  // remove leading >
                     // separate description from name with the pipe symbol
                     size_t first_pipe = line.find_first_of('|');
                     result.name       = line.substr(0, first_pipe);
-                    if (first_pipe != line.size())
+                    if (first_pipe != std::string::npos)
                     {
                         result.description = line.substr(first_pipe + 1);
                     }
@@ -61,6 +61,9 @@ namespace api
             // If it's not, accumulate characters.
             accum << line;
         }
+        auto convertSeq = Sequence::stringToSeq(accum.str());
+        result.sequence = convertSeq.first;
+        result.type     = convertSeq.second;
         return result;
     }
 
@@ -69,10 +72,44 @@ namespace api
     {
         stream << ">" << sequence.name << "|" << sequence.description << "\n";
     }
+
+    TEST_CASE("Fasta format: DNA import")
+    {
+        std::istringstream stream(">Test|with description\nATTCGACGTACCA");
+        FastaFile converter;
+        Sequence fastaSeq = converter.importFile(stream);
+
+        Sequence compare;
+        compare.name        = "Test";
+        compare.description = "with description";
+        compare.type        = Sequence::Type::DNA;
+        compare.sequence =
+            Sequence::typedStringToSeq("ATTCGACGTACCA", Sequence::Type::DNA);
+        CHECK_EQ(fastaSeq, compare);
+    }
+
+    TEST_CASE("Fasta format: import without description")
+    {
+        std::istringstream stream(">Test with a long name, no description\nA");
+        FastaFile converter;
+        Sequence fastaSeq = converter.importFile(stream);
+
+        CHECK_EQ(fastaSeq.name, "Test with a long name, no description");
+        CHECK_EQ(fastaSeq.description.size(), 0);
+    }
+
+    TEST_CASE("Fasta format: import with line breaks in sequence")
+    {
+        std::istringstream stream(">Test\nATTCGACGA\nGGATACACATA\nACATTAGAAAG");
+        FastaFile converter;
+        Sequence fastaSeq = converter.importFile(stream);
+
+        Sequence compare;
+        compare.name = "Test";
+        compare.type = Sequence::Type::DNA;
+        compare.sequence = Sequence::typedStringToSeq(
+            "ATTCGACGAGGATACACATAACATTAGAAAG", Sequence::Type::DNA);
+        CHECK_EQ(fastaSeq, compare);
+    }
 }  // namespace api
 };  // namespace recombinant
-
-TEST_CASE("Checking for import")
-{
-    CHECK(1 == 1);
-}
