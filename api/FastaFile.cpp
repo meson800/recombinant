@@ -1,5 +1,8 @@
-#include "../doctest.h"
 #include "FileFormat.h"
+
+#include <sstream>
+
+#include "../doctest.h"
 namespace recombinant
 {
 namespace api
@@ -12,6 +15,8 @@ namespace api
         bool readingSeq = false;
         bool done       = false;
 
+        std::ostringstream accum;
+
         while (!done)
         {
             // Check if next character is a >
@@ -23,7 +28,13 @@ namespace api
                     readingSeq = true;
                     std::getline(stream, line);
                     line.erase(0);  // remove leading >
-                    result.name = line;
+                    // separate description from name with the pipe symbol
+                    size_t first_pipe = line.find_first_of('|');
+                    result.name       = line.substr(0, first_pipe);
+                    if (first_pipe != line.size())
+                    {
+                        result.description = line.substr(first_pipe + 1);
+                    }
                 } else
                 {
                     // We reached the end of the file!
@@ -40,7 +51,15 @@ namespace api
                 done = true;
                 continue;
             }
-            // Process the line as text.
+            // Process the line as text. If it is empty, assume we got to the
+            // end
+            if (line.size() == 0)
+            {
+                done = true;
+            }
+
+            // If it's not, accumulate characters.
+            accum << line;
         }
         return result;
     }
