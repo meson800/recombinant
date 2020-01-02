@@ -151,6 +151,23 @@ namespace api
          */
         bool operator!=(const Sequence& other) const;
 
+
+        /**
+         * Given a span in sequence space (half open!, e.g. [0, 2)), returns
+         * an std::string that represents that section of the sequence.
+         */
+        std::string getSpan(size_t start, size_t end) const;
+
+        /**
+         * Overload that starts at start and goes until the end of the string
+         */
+        std::string getSpan(size_t start) const;
+
+        /**
+        * Overlaod that returns the entire sequence
+        */
+        std::string getSpan() const;
+
         std::string name;  /// Stores a short name describing this sequence.
         std::string description;  /// A longer description of this sequence
         Type type;                /// The type of sequence stored

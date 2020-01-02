@@ -233,6 +233,270 @@ namespace api
         return !(*this == other);
     }
 
+    std::string Sequence::getSpan(size_t start) const
+    {
+        return getSpan(start, sequence.size());
+    }
+
+    std::string Sequence::getSpan() const
+    {
+        return getSpan(0, sequence.size());
+    }
+
+    std::string Sequence::getSpan(size_t start, size_t end) const
+    {
+        if (end < start || start > sequence.size() || end > sequence.size())
+        {
+            throw std::runtime_error("Selected invalid span");
+        }
+
+        std::string result;
+        result.reserve(end - start);
+
+        // Just two boring nested switch statements
+        switch (type)
+        {
+            case Type::DNA:
+            {
+                for (auto it = sequence.begin() + start;
+                     it != sequence.begin() + end; ++it)
+                {
+                    switch (it->db)
+                    {
+                        case DNABase::A:
+                            result.push_back('A');
+                            break;
+                        case DNABase::T:
+                            result.push_back('T');
+                            break;
+                        case DNABase::C:
+                            result.push_back('C');
+                            break;
+                        case DNABase::G:
+                            result.push_back('G');
+                            break;
+                        case DNABase::R:
+                            result.push_back('R');
+                            break;
+                        case DNABase::Y:
+                            result.push_back('Y');
+                            break;
+                        case DNABase::K:
+                            result.push_back('K');
+                            break;
+                        case DNABase::M:
+                            result.push_back('M');
+                            break;
+                        case DNABase::S:
+                            result.push_back('S');
+                            break;
+                        case DNABase::W:
+                            result.push_back('W');
+                            break;
+                        case DNABase::B:
+                            result.push_back('B');
+                            break;
+                        case DNABase::D:
+                            result.push_back('D');
+                            break;
+                        case DNABase::H:
+                            result.push_back('H');
+                            break;
+                        case DNABase::V:
+                            result.push_back('V');
+                            break;
+                        case DNABase::N:
+                            result.push_back('N');
+                            break;
+                        case DNABase::Gap:
+                            result.push_back('-');
+                            break;
+                    }
+                }
+            }
+            break;
+
+            case Type::RNA:
+            {
+                for (auto it = sequence.begin() + start;
+                     it != sequence.begin() + end; ++it)
+                {
+                    switch (it->rb)
+                    {
+                        case RNABase::A:
+                            result.push_back('A');
+                            break;
+                        case RNABase::U:
+                            result.push_back('U');
+                            break;
+                        case RNABase::C:
+                            result.push_back('C');
+                            break;
+                        case RNABase::G:
+                            result.push_back('G');
+                            break;
+                        case RNABase::R:
+                            result.push_back('R');
+                            break;
+                        case RNABase::Y:
+                            result.push_back('Y');
+                            break;
+                        case RNABase::K:
+                            result.push_back('K');
+                            break;
+                        case RNABase::M:
+                            result.push_back('M');
+                            break;
+                        case RNABase::S:
+                            result.push_back('S');
+                            break;
+                        case RNABase::W:
+                            result.push_back('W');
+                            break;
+                        case RNABase::B:
+                            result.push_back('B');
+                            break;
+                        case RNABase::D:
+                            result.push_back('D');
+                            break;
+                        case RNABase::H:
+                            result.push_back('H');
+                            break;
+                        case RNABase::V:
+                            result.push_back('V');
+                            break;
+                        case RNABase::N:
+                            result.push_back('N');
+                            break;
+                        case RNABase::Gap:
+                            result.push_back('-');
+                            break;
+                    }
+                }
+            }
+            break;
+
+            case Type::Protein:
+            {
+                for (auto it = sequence.begin() + start;
+                     it != sequence.begin() + end; ++it)
+                {
+                    switch (it->aa)
+                    {
+                        case AminoAcid::A:
+                            result.push_back('A');
+                            break;
+                        case AminoAcid::R:
+                            result.push_back('R');
+                            break;
+                        case AminoAcid::N:
+                            result.push_back('N');
+                            break;
+                        case AminoAcid::D:
+                            result.push_back('D');
+                            break;
+                        case AminoAcid::B:
+                            result.push_back('B');
+                            break;
+                        case AminoAcid::C:
+                            result.push_back('C');
+                            break;
+                        case AminoAcid::E:
+                            result.push_back('E');
+                            break;
+                        case AminoAcid::Q:
+                            result.push_back('Q');
+                            break;
+                        case AminoAcid::Z:
+                            result.push_back('Z');
+                            break;
+                        case AminoAcid::G:
+                            result.push_back('G');
+                            break;
+                        case AminoAcid::H:
+                            result.push_back('H');
+                            break;
+                        case AminoAcid::I:
+                            result.push_back('I');
+                            break;
+                        case AminoAcid::L:
+                            result.push_back('L');
+                            break;
+                        case AminoAcid::K:
+                            result.push_back('K');
+                            break;
+                        case AminoAcid::M:
+                            result.push_back('M');
+                            break;
+                        case AminoAcid::F:
+                            result.push_back('F');
+                            break;
+                        case AminoAcid::P:
+                            result.push_back('P');
+                            break;
+                        case AminoAcid::S:
+                            result.push_back('S');
+                            break;
+                        case AminoAcid::T:
+                            result.push_back('T');
+                            break;
+                        case AminoAcid::W:
+                            result.push_back('W');
+                            break;
+                        case AminoAcid::Y:
+                            result.push_back('Y');
+                            break;
+                        case AminoAcid::V:
+                            result.push_back('V');
+                            break;
+                        case AminoAcid::U:
+                            result.push_back('U');
+                            break;
+                        case AminoAcid::X:
+                            result.push_back('X');
+                            break;
+                        case AminoAcid::Stop:
+                            result.push_back('*');
+                            break;
+                        case AminoAcid::Gap:
+                            result.push_back('-');
+                            break;
+                    }
+                }
+            }
+            break;
+        }
+        return result;
+    }
+
+    TEST_CASE("Sequence::getSpan: ")
+    {
+        Sequence seq;
+        seq.type = Sequence::Type::DNA;
+        seq.sequence =
+            Sequence::typedStringToSeq("ATCGGTCA", Sequence::Type::DNA);
+
+        SUBCASE("Handles bounds checking")
+        {
+            CHECK_THROWS(seq.getSpan(10, 10));
+            CHECK_THROWS(seq.getSpan(5, 2));
+            CHECK_THROWS(seq.getSpan(0, 20));
+        }
+
+        SUBCASE("Returns subspans correctly")
+        {
+            CHECK_EQ(seq.getSpan(0, 3), "ATC");
+            CHECK_EQ(seq.getSpan(0, 8), "ATCGGTCA");
+            CHECK_EQ(seq.getSpan(4, 8), "GTCA");
+        }
+
+        SUBCASE("Overloads work properly")
+        {
+            CHECK_EQ(seq.getSpan(4), "GTCA");
+            CHECK_EQ(seq.getSpan(), "ATCGGTCA");
+        }
+    }
+
     TEST_CASE("Sequence::typedStringToSeq: DNA string encoding")
     {
         std::vector<Sequence::SeqUnit> seq =
@@ -253,6 +517,11 @@ namespace api
             }
         }
         CHECK(same);
+
+        Sequence fullseq;
+        fullseq.type     = Sequence::Type::DNA;
+        fullseq.sequence = seq;
+        CHECK_EQ(fullseq.getSpan(), "ATCGRYKMSWBDHVN-");
     }
 
     TEST_CASE("Sequence::typedStringToSeq: RNA string encoding")
@@ -275,6 +544,11 @@ namespace api
             }
         }
         CHECK(same);
+
+        Sequence fullseq;
+        fullseq.type     = Sequence::Type::RNA;
+        fullseq.sequence = seq;
+        CHECK_EQ(fullseq.getSpan(), "AUCGRYKMSWBDHVN-");
     }
 
     TEST_CASE("Sequence::typedStringToSeq: Protein string encoding")
@@ -305,6 +579,12 @@ namespace api
             }
         }
         CHECK(same);
+
+        Sequence fullseq;
+        fullseq.type     = Sequence::Type::Protein;
+        fullseq.sequence = seq;
+        CHECK_EQ(
+            fullseq.getSpan(), "ARNDBCEQZGHILKMFPSTWYVUX*-");
     }
 
     TEST_CASE("Sequence::typedStringToSeq: Lowercase letters properly encoded")
@@ -317,7 +597,8 @@ namespace api
     }
 
     TEST_CASE(
-        "Sequence::typedStringToSeq: Throw an exception when invalid character "
+        "Sequence::typedStringToSeq: Throw an exception when invalid "
+        "character "
         "present")
     {
         CHECK_THROWS(Sequence::typedStringToSeq("T", Sequence::Type::RNA));
@@ -341,7 +622,8 @@ namespace api
         CHECK_EQ(result.second, Sequence::Type::RNA);
 
         result = Sequence::stringToSeq(
-            "MALWMRLLPLLALLALWGPDPAAAFVNQHLCGSHLVEALYLVCGERGFFYTPKTRREAEDLQGSLQ"
+            "MALWMRLLPLLALLALWGPDPAAAFVNQHLCGSHLVEALYLVCGERGFFYTPKTRREAEDLQ"
+            "GSLQ"
             "PLALEGSLQKRGIVEQCCTSICSLYQLENYCN");
         CHECK_EQ(result.second, Sequence::Type::Protein);
     }
