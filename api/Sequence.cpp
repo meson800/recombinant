@@ -1,5 +1,7 @@
 #include "Sequence.h"
 
+#include <iostream>
+#include <sstream>
 #include <locale>
 #include <map>
 
