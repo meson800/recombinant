@@ -139,6 +139,18 @@ namespace api
         static std::vector<SeqUnit> typedStringToSeq(
             const std::string& str, Type type);
 
+        /**
+         * Compares two sequences, returning true if the two
+         * sequences are identical (same name/description/sequence/features)
+         */
+        bool operator==(const Sequence& other) const;
+
+        /**
+         * Returns true if the two sequences are not equal. See
+         * Sequence::operator== for details
+         */
+        bool operator!=(const Sequence& other) const;
+
         std::string name;  /// Stores a short name describing this sequence.
         std::string description;  /// A longer description of this sequence
         Type type;                /// The type of sequence stored

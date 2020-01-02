@@ -192,6 +192,47 @@ namespace api
         return result;
     }
 
+    bool Sequence::operator==(const Sequence& other) const
+    {
+        if (other.name != name || other.description != description ||
+            other.sequence.size() != sequence.size() || other.type != type)
+        {
+            return false;
+        }
+        // check sequence now
+        for (size_t i = 0; i < sequence.size(); ++i)
+        {
+            switch (type)
+            {
+                case Type::DNA:
+                    if (sequence[i].db != other.sequence[i].db)
+                    {
+                        return false;
+                    }
+                    break;
+                case Type::RNA:
+                    if (sequence[i].rb != other.sequence[i].rb)
+                    {
+                        return false;
+                    }
+                    break;
+                case Type::Protein:
+                    if (sequence[i].aa != other.sequence[i].aa)
+                    {
+                        return false;
+                    }
+                    break;
+            }
+        }
+        // Nothing was different! Return success
+        return true;
+    }
+
+    bool Sequence::operator!=(const Sequence& other) const
+    {
+        return !(*this == other);
+    }
+
     TEST_CASE("Sequence::typedStringToSeq: DNA string encoding")
     {
         std::vector<Sequence::SeqUnit> seq =
