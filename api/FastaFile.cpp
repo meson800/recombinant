@@ -2,12 +2,15 @@
 
 #include <sstream>
 
+#include "Exceptions.h"
+
 #include "../doctest.h"
 namespace recombinant
 {
 namespace api
 {
-    Sequence FastaFile::importFileSingle(std::istream& stream, ImportFlags flags)
+    Sequence FastaFile::importFileSingle(
+        std::istream& stream, ImportFlags flags)
     {
         Sequence result;
 
@@ -55,7 +58,18 @@ namespace api
             // end
             if (line.size() == 0)
             {
-                done = true;
+                done = readingSeq; // If we aren't in reading mode, just ignore this line
+                continue;
+            }
+
+            // If we are here, the line is not empty. This is an error if
+            // we aren't in permissive mode!
+            if (!readingSeq && flags != ImportFlags::Permissive)
+            {
+                std::ostringstream ss;
+                ss << "Unexpected line when reading a Fasta file:" << line
+                   << "\nRetry in permissive mode if this is expected.";
+                throw FileImportError(ss.str());
             }
 
             // If it's not, accumulate characters.
@@ -105,11 +119,50 @@ namespace api
         Sequence fastaSeq = converter.importFileSingle(stream);
 
         Sequence compare;
-        compare.name = "Test";
-        compare.type = Sequence::Type::DNA;
+        compare.name     = "Test";
+        compare.type     = Sequence::Type::DNA;
         compare.sequence = Sequence::typedStringToSeq(
             "ATTCGACGAGGATACACATAACATTAGAAAG", Sequence::Type::DNA);
         CHECK_EQ(fastaSeq, compare);
+    }
+
+    TEST_CASE("Fasta format: multiple sequence import")
+    {
+        std::istringstream stream(
+            "\n>Test1\nATCG\nGCTA\n>Test2\nACUGGUCA\n\n>Test3\nABCDEFGHIKLMN");
+        FastaFile converter;
+        std::vector<Sequence> sequences = converter.importFile(stream);
+        REQUIRE_EQ(sequences.size(), 3);
+
+        CHECK_EQ(sequences[0].name, "Test1");
+        CHECK_EQ(sequences[0].type, Sequence::Type::DNA);
+        CHECK_EQ(sequences[0].sequence.size(), 8);
+
+        CHECK_EQ(sequences[1].name, "Test2");
+        CHECK_EQ(sequences[1].type, Sequence::Type::RNA);
+        CHECK_EQ(sequences[1].sequence.size(), 8);
+
+        CHECK_EQ(sequences[2].name, "Test3");
+        CHECK_EQ(sequences[2].type, Sequence::Type::Protein);
+        CHECK_EQ(sequences[2].sequence.size(), 13);
+    }
+
+    TEST_CASE(
+        "Fasta format: errors if extraneous non-sequence information present "
+        "unless in permissive mode")
+    {
+        std::istringstream stream("blahblah\n>Test|description\nATCG");
+        FastaFile converter;
+        CHECK_THROWS_AS(converter.importFileSingle(stream), FileImportError);
+        Sequence import = converter.importFileSingle(stream, FileFormat::ImportFlags::Permissive);
+
+        Sequence compare;
+        compare.name        = "Test";
+        compare.description = "description";
+        compare.type        = Sequence::Type::DNA;
+        compare.sequence =
+            Sequence::typedStringToSeq("ATCG", Sequence::Type::DNA);
+        CHECK_EQ(import, compare);
     }
 }  // namespace api
 };  // namespace recombinant
