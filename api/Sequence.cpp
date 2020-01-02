@@ -18,8 +18,8 @@ namespace api
         // https://zhanglab.ccmb.med.umich.edu/FASTA/
         //
         // ABCDEFGHIJKLMNOPQRSTUVWXYZ*-
-        // x x   x            x       x DNA (classic)
-        // x x   x             x      x RNA (classic)
+        // x x   x      x     x       x DNA (classic)
+        // x x   x      x      x      x RNA (classic)
         // xxxx  xx  x xx   xxx xx x  x DNA
         // xxxx  xx  x xx   xx xxx x  x RNA
         // xxxxxxxxx xxxx xxxxxxxxxxxxx Protein
