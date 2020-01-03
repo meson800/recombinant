@@ -5,9 +5,10 @@
 #include "AboutDialog.h"
 #include "TreeWindow.h"
 #include "ids.h"
+#include "strings.h"
 
 MainFrame::MainFrame()
-    : wxFrame(NULL, wxID_ANY, "Hello World")
+    : wxFrame(NULL, wxID_ANY, localizedString(StringID::ProgramName))
 {
     manager.SetManagedWindow(this);
     wxMenu* menuFile = new wxMenu;
@@ -22,7 +23,7 @@ MainFrame::MainFrame()
     menuBar->Append(menuHelp, "&Help");
     SetMenuBar(menuBar);
     CreateStatusBar();
-    SetStatusText("Welcome to wxWidgets!");
+    SetStatusText(localizedString(StringID::Welcome));
     Bind(wxEVT_MENU, &MainFrame::OnHello, this, GUI_IDS::ID_Hello);
     Bind(wxEVT_MENU, &MainFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_MENU, &MainFrame::OnExit, this, wxID_EXIT);

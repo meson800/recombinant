@@ -2,6 +2,7 @@
 
 const char* en_us_strings[] = {
     "About Recombinant",
+    "Recombinant",
     "Build information: ",
     "License",
     "Authors",

@@ -3,6 +3,7 @@
 enum StringID
 {
     AboutDialogTitle = 0,
+    ProgramName,
     BuildInformation,
     License,
     Authors,
