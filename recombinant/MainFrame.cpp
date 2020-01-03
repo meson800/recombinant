@@ -36,6 +36,7 @@ MainFrame::MainFrame()
     manager.AddPane(viewer, wxAuiPaneInfo().Bottom().Caption(
         localizedString(StringID::Viewer)).MinSize(viewer->GetMinSize()));
     manager.Update();
+    SetMinSize(wxSize(500, 600));
 }
 
 MainFrame::~MainFrame()
