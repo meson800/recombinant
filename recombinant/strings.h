@@ -9,15 +9,17 @@ enum StringID
     Authors,
     AddDataSources,
     Welcome,
+    STRING_COUNT,
 };
 
 enum Language
 {
     en_us = 0,
+    LANGUAGE_COUNT,
 };
 
-const char* en_us_strings[];
+extern const char* en_us_strings[StringID::STRING_COUNT];
 
-const char** all_strings[];
+extern const char** all_strings[Language::LANGUAGE_COUNT];
 
 const char* localizedString(StringID id);
