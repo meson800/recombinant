@@ -3,6 +3,7 @@
 #include "wx/aui/aui.h"
 
 #include "AboutDialog.h"
+#include "TreeFrame.h"
 #include "ids.h"
 
 MainFrame::MainFrame()
@@ -25,6 +26,13 @@ MainFrame::MainFrame()
     Bind(wxEVT_MENU, &MainFrame::OnHello, this, GUI_IDS::ID_Hello);
     Bind(wxEVT_MENU, &MainFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_MENU, &MainFrame::OnExit, this, wxID_EXIT);
+
+
+    TreeFrame* tree   = new TreeFrame(this, -1);
+    wxTextCtrl* text2 = new wxTextCtrl(this, -1);
+    manager.AddPane(tree, wxAuiPaneInfo().CenterPane().Caption("Caption 1"));
+    manager.AddPane(text2, wxAuiPaneInfo().Bottom().Caption("Caption 2"));
+    manager.Update();
 }
 
 MainFrame::~MainFrame()
