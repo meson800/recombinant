@@ -8,6 +8,7 @@ const char* en_us_strings[] = {
     "Authors",
     "Add a data source to begin!",
     "Welcome to Recombinant!",
+    "Viewer",
 };
 
 const char** all_strings[] = {en_us_strings};

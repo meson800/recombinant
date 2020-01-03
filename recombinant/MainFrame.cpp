@@ -4,11 +4,12 @@
 
 #include "AboutDialog.h"
 #include "TreeWindow.h"
+#include "ViewWindow.h"
 #include "ids.h"
 #include "strings.h"
 
 MainFrame::MainFrame()
-    : wxFrame(NULL, wxID_ANY, localizedString(StringID::ProgramName))
+    : wxFrame(NULL, wxID_ANY, localizedString(StringID::ProgramName), wxDefaultPosition, wxSize(500, 600))
 {
     manager.SetManagedWindow(this);
     wxMenu* menuFile = new wxMenu;
@@ -30,9 +31,10 @@ MainFrame::MainFrame()
 
 
     TreeWindow* tree   = new TreeWindow(this, -1);
-    wxTextCtrl* text2 = new wxTextCtrl(this, -1);
-    manager.AddPane(tree, wxAuiPaneInfo().CenterPane().Caption("Caption 1"));
-    manager.AddPane(text2, wxAuiPaneInfo().Bottom().Caption("Caption 2"));
+    ViewWindow* viewer = new ViewWindow(this, -1);
+    manager.AddPane(tree, wxAuiPaneInfo().CenterPane().MinSize(tree->GetMinSize()));
+    manager.AddPane(viewer, wxAuiPaneInfo().Bottom().Caption(
+        localizedString(StringID::Viewer)).MinSize(viewer->GetMinSize()));
     manager.Update();
 }
 

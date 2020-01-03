@@ -9,6 +9,7 @@ enum StringID
     Authors,
     AddDataSources,
     Welcome,
+    Viewer,
     STRING_COUNT,
 };
 
