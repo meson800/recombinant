@@ -6,6 +6,7 @@ ViewWindow::ViewWindow(wxWindow* parent, wxWindowID id)
     : wxWindow(parent, id, wxDefaultPosition, wxSize(300, 200))
 {
     Bind(wxEVT_PAINT, &ViewWindow::OnPaint, this, wxID_ANY);
+    Bind(wxEVT_SIZE, &ViewWindow::OnSize, this, wxID_ANY);
 }
 
 ViewWindow::~ViewWindow()
@@ -24,4 +25,9 @@ void ViewWindow::OnPaint(wxPaintEvent&)
     dc.DrawText(localizedString(StringID::NoSequenceSelected),
         (dcExtent.GetX() - textExtent.GetX()) / 2,
         (dcExtent.GetY() - textExtent.GetY()) / 2);
+}
+
+void ViewWindow::OnSize(wxSizeEvent&)
+{
+    Refresh();
 }

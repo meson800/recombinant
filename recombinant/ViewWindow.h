@@ -18,5 +18,8 @@ public:
     /// Handles the paint event by drawing on the window itself
     void OnPaint(wxPaintEvent& event);
 
+    /// Handles resizing events
+    void OnSize(wxSizeEvent&);
+
 private:
 };
