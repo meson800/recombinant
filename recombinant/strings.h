@@ -6,6 +6,8 @@ enum StringID
     BuildInformation,
     License,
     Authors,
+    AddDataSources,
+    Welcome,
 };
 
 enum Language
@@ -13,16 +15,8 @@ enum Language
     en_us = 0,
 };
 
-const char* en_us_strings[] = {
-    "About Recombinant",
-    "Build information: ",
-    "License",
-    "Authors",
-};
+const char* en_us_strings[];
 
-const char** all_strings[] = {en_us_strings};
+const char** all_strings[];
 
-const char* localizedString(StringID id)
-{
-    return all_strings[Language::en_us][id];
-}
+const char* localizedString(StringID id);
