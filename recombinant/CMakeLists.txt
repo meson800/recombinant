@@ -48,7 +48,7 @@ find_package(wxWidgets REQUIRED COMPONENTS core base aui)
 include(${wxWidgets_USE_FILE})
 
 # Add source to this project's executable.
-set(RecombinantSources main.cpp AboutDialog.cpp MainFrame.cpp TreeFrame.cpp strings.cpp)
+set(RecombinantSources main.cpp AboutDialog.cpp MainFrame.cpp TreeWindow.cpp strings.cpp)
 if (WIN32)
 	add_executable (recombinant WIN32 ${RecombinantSources} ${VERSION_FILE})
 else()

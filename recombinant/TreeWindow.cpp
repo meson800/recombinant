@@ -1,8 +1,8 @@
-#include "TreeFrame.h"
+#include "TreeWindow.h"
 
 #include "strings.h"
 
-TreeFrame::TreeFrame(wxWindow* parent, wxWindowID id)
+TreeWindow::TreeWindow(wxWindow* parent, wxWindowID id)
     : wxWindow(parent, id)
 {
     treelist = new wxTreeListCtrl(
@@ -15,8 +15,8 @@ TreeFrame::TreeFrame(wxWindow* parent, wxWindowID id)
     SetSizerAndFit(sizer);
 }
 
-TreeFrame::~TreeFrame()
+TreeWindow::~TreeWindow()
 {}
 
-void TreeFrame::OnPaint(wxPaintEvent&)
+void TreeWindow::OnPaint(wxPaintEvent&)
 {}

@@ -9,11 +9,11 @@
  * These items are filled relative to data sources loaded through the
  * data source pane.
  */
-class TreeFrame : public wxWindow
+class TreeWindow : public wxWindow
 {
 public:
-    TreeFrame(wxWindow* parent, wxWindowID id);
-    ~TreeFrame();
+    TreeWindow(wxWindow* parent, wxWindowID id);
+    ~TreeWindow();
 
     /// Handles the paint event by recalculating the view state of the treeview.
     void OnPaint(wxPaintEvent& event);
