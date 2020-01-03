@@ -10,6 +10,7 @@ enum StringID
     AddDataSources,
     Welcome,
     Viewer,
+    NoSequenceSelected,
     STRING_COUNT,
 };
 

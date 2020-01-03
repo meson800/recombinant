@@ -9,6 +9,7 @@ const char* en_us_strings[] = {
     "Add a data source to begin!",
     "Welcome to Recombinant!",
     "Viewer",
+    "No sequence selected!",
 };
 
 const char** all_strings[] = {en_us_strings};
