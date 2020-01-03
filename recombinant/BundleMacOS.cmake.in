@@ -1,0 +1,8 @@
+include(BundleUtilities)
+set(CMAKE_INSTALL_PREFIX @CMAKE_INSTALL_PREFIX@)
+fixup_bundle(${CMAKE_INSTALL_PREFIX}/recombinant/recombinant.app "" "" IGNORE_ITEM "Python")
+file(GLOB_RECURSE PythonBinaries FOLLOW_SYMLINKS ${CMAKE_INSTALL_PREFIX}/recombinant/recombinant.app/ Python)
+# As a temp fix, remove the unnecessary Python binary copied in
+message("Found erronously copied python binaries: ${PythonBinaries}")
+file(REMOVE ${PythonBinaries})
+verify_app(${CMAKE_INSTALL_PREFIX}/recombinant/recombinant.app)

@@ -41,7 +41,11 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/version.cpp.in ${CMAKE_CURRENT_BINARY
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/version.h ${CMAKE_CURRENT_BINARY_DIR}/version.h)
 set(VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/version.cpp")
 
+
 find_package(Doxygen)
+
+# On Mac, find the Python framework so we can embed it
+set(Python_FIND_FRAMEWORK FIRST)
 find_package(Python3 REQUIRED COMPONENTS Development)
 find_package(wxWidgets REQUIRED COMPONENTS core base aui)
 
@@ -52,6 +56,13 @@ set(RecombinantSources main.cpp AboutDialog.cpp MainFrame.cpp
   TreeWindow.cpp ViewWindow.cpp strings.cpp)
 if (WIN32)
 	add_executable (recombinant WIN32 ${RecombinantSources} ${VERSION_FILE})
+elseif(APPLE)
+	add_executable(recombinant MACOSX_BUNDLE ${RecombinantSources} ${VERSION_FILE})
+	configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Info.plist.in ${CMAKE_CURRENT_BINARY_DIR}/Info.plist)
+	set_target_properties(recombinant PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_BINARY_DIR}/Info.plist)
+	set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR})
+	configure_file(${CMAKE_CURRENT_SOURCE_DIR}/BundleMacOS.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/BundleMacOS.cmake @ONLY)
+	install(SCRIPT ${CMAKE_CURRENT_BINARY_DIR}/BundleMacOS.cmake COMPONENT Runtime)
 else()
 	add_executable(recombinant ${RecombinantSources} ${VERSION_FILE})
 endif()
