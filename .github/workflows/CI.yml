@@ -58,13 +58,18 @@ jobs:
         run: mkdir build; mkdir build_release;
       - name: Prepare CMake builds
         run: cd build; cmake ..; cd ../build_release; cmake -DCMAKE_BUILD_TYPE="Release" ..
+	env:
+          MACOSX_DEPLOYMENT_TARGET: 10.11
       - name: Compile
         run: cd build; cmake --build .; cd ../build_release; cmake --build . --config Release
         env:
           VERBOSE: 1
           CMAKE_BUILD_PARALLEL_LEVEL: 2
+          MACOSX_DEPLOYMENT_TARGET: 10.11
       - name: Bundle application (Mac)
         run: cd build; sudo make install; cd ../build_release; sudo make install;
+	env:
+          MACOSX_DEPLOYMENT_TARGET: 10.11
         if: matrix.os == 'macos-latest'
       - name: Run tests
         run: cd build; ctest -VV -j 2
