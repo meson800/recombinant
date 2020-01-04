@@ -57,14 +57,16 @@ set(RecombinantSources main.cpp AboutDialog.cpp MainFrame.cpp
 if (WIN32)
 	add_executable (recombinant WIN32 ${RecombinantSources} ${VERSION_FILE})
 elseif(APPLE)
-	add_executable(recombinant MACOSX_BUNDLE ${RecombinantSources} ${VERSION_FILE})
+	set(ICON_FILE ${CMAKE_CURRENT_SOURCE_DIR}/icons/main.icns)
+	set_source_files_properties(${ICON_FILE} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+	add_executable(recombinant MACOSX_BUNDLE ${RecombinantSources} ${VERSION_FILE} ${ICON_FILE})
 	configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Info.plist.in ${CMAKE_CURRENT_BINARY_DIR}/Info.plist)
 	set_target_properties(recombinant PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_BINARY_DIR}/Info.plist)
 	set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR})
 	configure_file(${CMAKE_CURRENT_SOURCE_DIR}/BundleMacOS.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/BundleMacOS.cmake @ONLY)
 	install(SCRIPT ${CMAKE_CURRENT_BINARY_DIR}/BundleMacOS.cmake COMPONENT Runtime)
 else()
-	add_executable(recombinant ${RecombinantSources} ${VERSION_FILE})
+	add_executable (recombinant ${RecombinantSources} ${VERSION_FILE})
 endif()
 
 # If on windows, copy DLLs into output directory
