@@ -21,9 +21,7 @@ jobs:
           mkdir download; cd download; wget "https://distfiles.macports.org/MacPorts/MacPorts-2.6.2-10.15-Catalina.pkg";
           sudo installer -pkg MacPorts-2.6.2-10.15-Catalina.pkg -target /;
           (echo "file://$GITHUB_WORKSPACE/build_helpers/macos/localports" && cat /opt/local/etc/macports/sources.conf) > tempsources && sudo mv tempsources /opt/local/etc/macports/sources.conf;
-          cat /opt/local/etc/macports/sources.conf;
-          ls;
-          cd build_helpers/macos/localports; sudo /opt/local/bin/portindex; cd ../../../;
+          cd $GITHUB_WORKSPACE/build_helpers/macos/localports; sudo /opt/local/bin/portindex; cd ../../../;
           sudo /opt/local/bin/port install wxWidgets-3.2;
           sudo /opt/local/bin/port select --set wxWidgets wxWidgets-3.2
         if: matrix.os == 'macos-latest'
