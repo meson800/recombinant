@@ -63,6 +63,9 @@ jobs:
         env:
           VERBOSE: 1
           CMAKE_BUILD_PARALLEL_LEVEL: 2
+      - name: Bundle application (Mac)
+        run: cd build; sudo make install; cd ../build_release; sudo make install;
+        if: matrix.os == 'macos-latest'
       - name: Run tests
         run: cd build; ctest -VV -j 2
         continue-on-error: true
@@ -76,7 +79,13 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: recombinant-macos
-          path: build/recombinant/recombinant
+          path: build/recombinant/recombinant.app
+        if: matrix.os == 'macos-latest'
+      - name: Save release binaries (Mac)
+        uses: actions/upload-artifact@v1
+        with:
+          name: recombinant-macos
+          path: build_release/recombinant/recombinant.app
         if: matrix.os == 'macos-latest'
       - name: Save binaries (Windows)
         uses: actions/upload-artifact@v1
