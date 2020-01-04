@@ -78,13 +78,13 @@ jobs:
       - name: Save binaries (Mac)
         uses: actions/upload-artifact@v1
         with:
-          name: recombinant-macos
+          name: recombinant-macos.app
           path: build/recombinant/recombinant.app
         if: matrix.os == 'macos-latest'
       - name: Save release binaries (Mac)
         uses: actions/upload-artifact@v1
         with:
-          name: recombinant-macos-release
+          name: recombinant-macos-release.app
           path: build_release/recombinant/recombinant.app
         if: matrix.os == 'macos-latest'
       - name: Save binaries (Windows)
