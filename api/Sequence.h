@@ -24,6 +24,18 @@ namespace api
             T,
             C,
             G,
+            R,  // Purine
+            Y,  // Pyrimidine
+            K,  // Keto
+            M,  // Amino
+            S,  // Strong
+            W,  // Weak
+            B,  // Not A
+            D,  // Not C
+            H,  // Not G
+            V,  // Not T
+            N,
+            Gap,
         };
 
         /**
@@ -35,6 +47,18 @@ namespace api
             U,
             C,
             G,
+            R,  // Purine
+            Y,  // Pyrimidine
+            K,  // Keto
+            M,  // Amino
+            S,  // Strong
+            W,  // Weak
+            B,  // Not A
+            D,  // Not C
+            H,  // Not G
+            V,  // Not U
+            N,
+            Gap,
         };
         /**
          * Enum storing the standard protein amino acids
@@ -62,7 +86,11 @@ namespace api
             T,
             W,
             Y,
-            V
+            V,
+            U,  // selenocysteine
+            X,  // any
+            Stop,
+            Gap,
         };
 
         /**
@@ -85,12 +113,65 @@ namespace api
             DNABase db;
             RNABase rb;
             AminoAcid aa;
+            SeqUnit(DNABase b)
+                : db(b)
+            {}
+            SeqUnit(RNABase b)
+                : rb(b)
+            {}
+            SeqUnit(AminoAcid a)
+                : aa(a)
+            {}
         };
+
+        /**
+         * Takes an input string filled with an unknown sequence of values.
+         * Attempts to guess the type of sequence (DNA/RNA/protein) and return
+         * that, and otherwise returns a SequenceImportError
+         */
+        static std::pair<std::vector<SeqUnit>, Type> stringToSeq(
+            const std::string& str);
+
+        /**
+         * Takes an input string with a given type (DNA/RNA/protein) and returns
+         * the converted sequence. Raises a SequenceImportError if unsuccessful.
+         */
+        static std::vector<SeqUnit> typedStringToSeq(
+            const std::string& str, Type type);
+
+        /**
+         * Compares two sequences, returning true if the two
+         * sequences are identical (same name/description/sequence/features)
+         */
+        bool operator==(const Sequence& other) const;
+
+        /**
+         * Returns true if the two sequences are not equal. See
+         * Sequence::operator== for details
+         */
+        bool operator!=(const Sequence& other) const;
+
+
+        /**
+         * Given a span in sequence space (half open!, e.g. [0, 2)), returns
+         * an std::string that represents that section of the sequence.
+         */
+        std::string getSpan(size_t start, size_t end) const;
+
+        /**
+         * Overload that starts at start and goes until the end of the string
+         */
+        std::string getSpan(size_t start) const;
+
+        /**
+        * Overlaod that returns the entire sequence
+        */
+        std::string getSpan() const;
 
         std::string name;  /// Stores a short name describing this sequence.
         std::string description;  /// A longer description of this sequence
-        Type type; /// The type of sequence stored
-        std::vector<SeqUnit> sequence; /// The actual sequence stored inside
+        Type type;                /// The type of sequence stored
+        std::vector<SeqUnit> sequence;  /// The actual sequence stored inside
     };
 
     /**

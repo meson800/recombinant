@@ -7,6 +7,16 @@ namespace recombinant
 namespace api
 {
     /**
+     * Exception that represents a failure to import sequence from a string
+     */
+    class SequenceImportError : public std::runtime_error
+    {
+    public:
+        SequenceImportError(const std::string& err)
+            : std::runtime_error(err)
+        {}
+    };
+    /**
      * Exception that represents a failure to import a file.
      */
     class FileImportError : public std::runtime_error
@@ -22,7 +32,7 @@ namespace api
      * This exception will typically indicate an error condition
      * where the exporter must be allowed to remove/truncate features
      */
-        class FileExportError : public std::runtime_error
+    class FileExportError : public std::runtime_error
     {
     public:
         FileExportError(const std::string& err)

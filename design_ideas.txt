@@ -1,0 +1,28 @@
+If performance with deleting/inserting into large genome files becomes too great when
+just using a std::vector, use a "span" method.
+
+Here, we store several different vectors ("spans"), along with their start base number
+and their end base number. Then, insert/deletes are really easy; just split
+a large span into two smaller spans, adjusting the two ends, or inserting a new span
+in the middle. Keep spans sorted by start base.
+
+In the background, have a coalesce thread going that attempts to drop the number of
+spans down. This should hopefully keep editing in realtime (might be a problem
+editing on large genomes).
+
+**Instead of spans, just store a "modifications" stack that affect the "view", so to speak.
+That is, when something tries to read a consistent  view from the sequence, it reads with an
+iterator that checks the inner sequence, plus any modifications on the stack. Still
+have a thread running that tries to apply the modifications.
+
+Whenever a modification is made, create an edit feature (e.g. that stores all of
+the information of the edit). These means that we can additionally have "persistant"
+undo capabilities, that is baked intto the file format! Have a quick shortcut to undo (z)
+or accept (a) a change. The main control-z undo stack is then either a
+reference to an edit feature that we can undo, or some other type of undo object (e.g.
+a rename or something like that).
+
+For features, store features in several different powers-of-two (based on size)
+buckets. Each bucket is sorted by feature start base.
+Importantly, the size is the total length from start to finish (e.g. display size)
+even if the feature is discontinuous.

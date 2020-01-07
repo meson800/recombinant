@@ -4,7 +4,7 @@ namespace recombinant
 {
 namespace api
 {
-    Sequence GenbankFlatFile::importFile(
+    Sequence GenbankFlatFile::importFileSingle(
         std::istream& stream, ImportFlags flags)
     {
         return Sequence();

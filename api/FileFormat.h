@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+
 #include "Sequence.h"
 namespace recombinant
 {
@@ -49,14 +50,22 @@ namespace api
         /**
          * Given a filename, outputs Sequence(s) based on reading the file.
          *
-         * This is a convience override that creates a istream from the filename,
-         * then trying to repeatedly import sequences until finished.
+         * This is a convience override that creates a istream from the
+         * filename, then trying to repeatedly import sequences until finished.
          *
          * This is useful for file formats that may contain several sequences
          * in a single file.
          */
         virtual std::vector<Sequence> importFile(
             const std::string& filename, ImportFlags flags = ImportFlags::None);
+
+        /**
+         * Given a input stream, attempts to read several sequences from a
+         * single file. If this is overriden in subclasses, the file format
+         * cannot import/export multiple sequences in a single file.
+         */
+        virtual std::vector<Sequence> importFile(
+            std::istream& stream, ImportFlags flags = ImportFlags::None);
 
         /**
          * Given a std::istream, outputs a Sequence based on reading the file.
@@ -67,28 +76,39 @@ namespace api
          *
          * This is the function that inherited file types should use!
          */
-        virtual Sequence importFile(std::istream& stream,
-            ImportFlags flags = ImportFlags::None) = 0;
+        virtual Sequence importFileSingle(
+            std::istream& stream, ImportFlags flags = ImportFlags::None) = 0;
 
         /**
          * Given a filename and a Sequence, exports the Sequence to that file.
          *
-         * This is a convienence override that creates an ostream from the filename
+         * This is a convienence override that creates an ostream from the
+         * filename
          */
         virtual void exportSequence(const std::string& filename,
             const Sequence& sequence, ExportFlags flags = ExportFlags::None);
-        
+
         /**
-         * Given a filename and a vector of Sequences, exports them to 
+         * Given a filename and a vector of Sequences, exports them to
          * the same filename.
          *
-         * This function may be overriden to return FileExportErrors
-         * in file formats that do not allow multiple sequences in 
-         * a single file.
          */
         virtual void exportSequences(const std::string& filename,
-            const std::vector<Sequence> sequences,
+            const std::vector<Sequence>& sequences,
             ExportFlags = ExportFlags::None);
+
+        /**
+         * Given an output stream and a vector of Sequences, exports them
+         * to the same stream.
+         *
+         * This function may be overriden to return FileExportErrors
+         * in file formats that do not allow multiple sequences in
+         * a single file.
+         */
+        virtual void exportSequences(std::ostream& stream,
+            const std::vector<Sequence>& sequences,
+            ExportFlags = ExportFlags::None);
+
 
         /**
          * Given a std::ostream and a Sequence, writes the
@@ -120,12 +140,32 @@ namespace api
     class GenbankFlatFile : public FileFormat
     {
     public:
-        virtual Sequence importFile(std::istream& stream,
+        virtual Sequence importFileSingle(std::istream& stream,
             ImportFlags flags = ImportFlags::None) override;
         virtual void exportSequence(std::ostream& stream,
             const Sequence& sequence,
             ExportFlags flags = ExportFlags::None) override;
     };
-    
+
+    /**
+     * Handles import/export to the FASTA file format.
+     *
+     * This format is *not* a full-featured file format! It cannot
+     * handle features!
+     *
+     * Reference docs:
+     * https://www.ncbi.nlm.nih.gov/BLAST/fasta.shtml
+     * https://zhanglab.ccmb.med.umich.edu/FASTA/
+     */
+    class FastaFile : public FileFormat
+    {
+    public:
+        virtual Sequence importFileSingle(std::istream& stream,
+            ImportFlags flags = ImportFlags::None) override;
+        virtual void exportSequence(std::ostream& stream,
+            const Sequence& sequence,
+            ExportFlags flags = ExportFlags::None) override;
+    };
+
 }  // namespace api
 }  // namespace recombinant
