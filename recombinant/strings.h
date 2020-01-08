@@ -11,6 +11,7 @@ enum StringID
     Welcome,
     Viewer,
     NoSequenceSelected,
+    Credits,
     STRING_COUNT,
 };
 

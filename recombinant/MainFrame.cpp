@@ -13,6 +13,8 @@ MainFrame::MainFrame()
           wxDefaultPosition, wxSize(500, 600))
 {
 #ifdef WIN32
+    // the aaaaaa is because Windows Explorer picks the first
+    // icon, sorted alphabetically, so we add a bunch of a's.
     SetIcons(wxICON(aaaaaaMAIN_ICON));
 #endif
 

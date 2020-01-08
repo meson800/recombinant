@@ -37,6 +37,10 @@ AboutDialog::AboutDialog(wxWindow* parent)
             AUTHORS_STRING, wxDefaultPosition,
             wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY),
         localizedString(StringID::Authors));
+    notebook->AddPage(
+        new wxTextCtrl(notebook, wxID_ANY, CREDITS_STRING, wxDefaultPosition,
+            wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY),
+        localizedString(StringID::Credits));
     mainSizer->Add(notebook,
         wxSizerFlags(0).Expand().Border(wxALL, 10));
 

@@ -17,3 +17,6 @@ const char* LICENSE_STRING = R"~~~(
 const char* AUTHORS_STRING = R"~~~(
 @AUTHORS_STRING@
 )~~~";
+const char* CREDITS_STRING = R"~~~(
+@CREDITS_STRING@
+)~~~";

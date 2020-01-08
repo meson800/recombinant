@@ -10,6 +10,7 @@ const char* en_us_strings[] = {
     "Welcome to Recombinant!",
     "Viewer",
     "No sequence selected!",
+    "Credits",
 };
 
 const char** all_strings[] = {en_us_strings};

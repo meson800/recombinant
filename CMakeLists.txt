@@ -9,8 +9,9 @@ include(cmake_modules/doctest.cmake)
 # Set XCode version
 set(CMAKE_OSX_DEPLOYMENT_TARGET "10.11" CACHE STRING "Minimum OS X deployment version")
 
-# Read in license and authors file
+# Read in authors file and credits file
 file(READ AUTHORS AUTHORS_STRING)
+file(READ CREDITS CREDITS_STRING)
 
 project ("recombinant")
 
