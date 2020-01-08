@@ -55,7 +55,7 @@ include(${wxWidgets_USE_FILE})
 set(RecombinantSources main.cpp AboutDialog.cpp MainFrame.cpp
   TreeWindow.cpp ViewWindow.cpp strings.cpp)
 if (WIN32)
-	add_executable (recombinant WIN32 ${RecombinantSources} ${VERSION_FILE})
+	add_executable (recombinant WIN32 ${RecombinantSources} ${VERSION_FILE} icons/main.rc)
 elseif(APPLE)
 	set(ICON_FILE ${CMAKE_CURRENT_SOURCE_DIR}/icons/main.icns)
 	set_source_files_properties(${ICON_FILE} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
