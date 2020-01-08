@@ -56,6 +56,5 @@ public:
         unsigned int col) override;
 
 private:
-     int testItem;
 
 };
