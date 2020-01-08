@@ -99,7 +99,7 @@ if (WIN32)
 endif()
 
 # Ensure C++11 builds
-set_property(TARGET recombinant PROPERTY CXX_STANDARD 11)
+set_property(TARGET recombinant PROPERTY CXX_STANDARD 17)
 
 # Link against Python dev libraries and wxwidgets
 target_link_libraries(recombinant PRIVATE Python3::Python ${wxWidgets_LIBRARIES})
