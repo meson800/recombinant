@@ -53,7 +53,7 @@ include(${wxWidgets_USE_FILE})
 
 # Add source to this project's executable.
 set(RecombinantSources main.cpp AboutDialog.cpp MainFrame.cpp
-  TreeWindow.cpp ViewWindow.cpp strings.cpp)
+  TreeWindow.cpp ViewWindow.cpp strings.cpp FilesDataModel.cpp)
 if (WIN32)
 	add_executable (recombinant WIN32 ${RecombinantSources} ${VERSION_FILE} icons/main.rc)
 elseif(APPLE)
