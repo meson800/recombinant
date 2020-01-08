@@ -47,7 +47,7 @@ find_package(Doxygen)
 # On Mac, find the Python framework so we can embed it
 set(Python_FIND_FRAMEWORK FIRST)
 find_package(Python3 REQUIRED COMPONENTS Development)
-find_package(wxWidgets REQUIRED COMPONENTS core base aui)
+find_package(wxWidgets REQUIRED COMPONENTS core base aui adv)
 
 include(${wxWidgets_USE_FILE})
 
@@ -76,6 +76,8 @@ if (WIN32)
     set(debug_files 
       "${wxp}wxbase313ud_vc14x_x64.dll"
       "${wxp}wxbase313ud_vc14x_x64.pdb"
+      "${wxp}wxmsw313ud_adv_vc14x_x64.dll"
+      "${wxp}wxmsw313ud_adv_vc14x_x64.pdb"
       "${wxp}wxmsw313ud_aui_vc14x_x64.dll"
       "${wxp}wxmsw313ud_aui_vc14x_x64.pdb"
       "${wxp}wxmsw313ud_core_vc14x_x64.dll"
@@ -86,6 +88,7 @@ if (WIN32)
   else()
     set(release_files 
       "${wxp}wxbase313u_vc14x_x64.dll"
+      "${wxp}wxmsw313u_adv_vc14x_x64.dll"
       "${wxp}wxmsw313u_aui_vc14x_x64.dll"
       "${wxp}wxmsw313u_core_vc14x_x64.dll")
     add_custom_command(TARGET recombinant POST_BUILD
