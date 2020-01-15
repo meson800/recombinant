@@ -6,10 +6,10 @@ TreeWindow::TreeWindow(wxWindow* parent, wxWindowID id)
     : wxWindow(parent, id)
 {
     dataView = new wxDataViewCtrl(this, wxID_ANY, wxDefaultPosition,
-        wxDefaultSize, wxDV_MULTIPLE | wxDV_ROW_LINES);
+        wxSize(300, 200), wxDV_MULTIPLE | wxDV_ROW_LINES);
 
     // Create and associate data model with data view
-    dataModel = new FilesDataModel();
+    dataModel = new FilesDataModel(".");
     dataView->AssociateModel(dataModel);
     dataView->AppendTextColumn("Test!", 0);
 
