@@ -28,6 +28,8 @@ TreeWindow::~TreeWindow()
 {
     // Allow the data model to be destroyed
     dataModel->DecRef();
+    // remove our source
+    delete (source);
 }
 
 void TreeWindow::OnPaint(wxPaintEvent&)
