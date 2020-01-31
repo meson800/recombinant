@@ -20,8 +20,12 @@ namespace api
     class LocalFileSource : public Source
     {
     public:
+#ifndef __GNUC__
         /// Initalizes this LocalFileSource using a filesystem path
         LocalFileSource(std::filesystem::path);
+#elif
+        LocalFileSource(std::experimential::filesystem::path);
+#endif
     };
 
 }  // namespace api

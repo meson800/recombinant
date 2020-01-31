@@ -1,5 +1,11 @@
 #include "LocalFileSource.h"
 
+#ifndef __GNUC__
+using namespace std::filesystem;
+#elif
+using namespace std::experimential::filesystem;
+#endif
+
 namespace recombinant
 {
 namespace api
