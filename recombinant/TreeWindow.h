@@ -3,7 +3,8 @@
 #include "wx_headers.h"
 #include <wx/dataview.h>
 
-#include "FilesDataModel.h"
+#include "SourceDataModel.h"
+#include "../api/Source.h"
 
 /**
  * This class visually displays a tree of possible items.
@@ -24,7 +25,10 @@ private:
     /// Stores the control for the main data view
     wxDataViewCtrl* dataView;
     /// Stores the actual data model representing sequences/alignments/etc loaded
-    FilesDataModel* dataModel;
+    SourceDataModel* dataModel;
+
+    /// Stores the Source that we are temporarily using to feed data
+    recombinant::api::Source* source;
 
     /// Gives the "add a data source" message if none are selected.
     wxStaticText* loadDataControl;

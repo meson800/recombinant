@@ -2,6 +2,8 @@
 
 #include "strings.h"
 
+#include "../api/LocalFileSource.h"
+
 TreeWindow::TreeWindow(wxWindow* parent, wxWindowID id)
     : wxWindow(parent, id)
 {
@@ -9,9 +11,10 @@ TreeWindow::TreeWindow(wxWindow* parent, wxWindowID id)
         wxSize(300, 200), wxDV_MULTIPLE | wxDV_ROW_LINES);
 
     // Create and associate data model with data view
-    dataModel = new FilesDataModel(".");
+    source    = new recombinant::api::LocalFileSource(".");
+    dataModel = new SourceDataModel(source);
     dataView->AssociateModel(dataModel);
-    dataView->AppendTextColumn("Test!", 0);
+    dataView->AppendTextColumn("Name", 0);
 
     loadDataControl = new wxStaticText(
         this, wxID_ANY, localizedString(StringID::AddDataSources));

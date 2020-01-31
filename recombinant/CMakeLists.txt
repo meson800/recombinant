@@ -53,7 +53,7 @@ include(${wxWidgets_USE_FILE})
 
 # Add source to this project's executable.
 set(RecombinantSources main.cpp AboutDialog.cpp MainFrame.cpp
-  TreeWindow.cpp ViewWindow.cpp strings.cpp FilesDataModel.cpp)
+  TreeWindow.cpp ViewWindow.cpp strings.cpp SourceDataModel.cpp)
 if (WIN32)
 	add_executable (recombinant WIN32 ${RecombinantSources} ${VERSION_FILE} icons/main.rc)
 elseif(APPLE)
@@ -105,7 +105,8 @@ endif()
 set_property(TARGET recombinant PROPERTY CXX_STANDARD 17)
 
 # Link against Python dev libraries and wxwidgets
-target_link_libraries(recombinant PRIVATE Python3::Python ${wxWidgets_LIBRARIES})
+target_link_libraries(recombinant PRIVATE recombinant_api_obj 
+  Python3::Python ${wxWidgets_LIBRARIES})
 message(STATUS "Loaded wx libraries: ${wxWidgets_LIBRARIES}")
 
 # Enable more warnings!
