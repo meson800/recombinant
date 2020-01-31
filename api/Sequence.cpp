@@ -1,9 +1,9 @@
 #include "Sequence.h"
 
 #include <iostream>
-#include <sstream>
 #include <locale>
 #include <map>
+#include <sstream>
 
 #include "Exceptions.h"
 
@@ -83,10 +83,14 @@ namespace api
                     break;
 
                 default:
+                {
                     // Some weird character we didn't expect
-                    throw SequenceImportError(
-                        std::string("Sequence had unknown character:" + c));
+                    std::string errormsg = "Sequence had unknown character:";
+                    errormsg += c;
+                    
+                    throw SequenceImportError(errormsg);
                     break;
+                }
             }
         }
 
@@ -585,8 +589,7 @@ namespace api
         Sequence fullseq;
         fullseq.type     = Sequence::Type::Protein;
         fullseq.sequence = seq;
-        CHECK_EQ(
-            fullseq.getSpan(), "ARNDBCEQZGHILKMFPSTWYVUX*-");
+        CHECK_EQ(fullseq.getSpan(), "ARNDBCEQZGHILKMFPSTWYVUX*-");
     }
 
     TEST_CASE("Sequence::typedStringToSeq: Lowercase letters properly encoded")
