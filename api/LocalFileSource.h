@@ -1,6 +1,10 @@
 #pragma once
 
+#ifndef __GNUC__
 #include <filesystem>
+#elif
+#include <experimental/filesystem>
+#endif
 
 #include "Source.h"
 

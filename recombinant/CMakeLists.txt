@@ -101,7 +101,7 @@ if (WIN32)
   endif()
 endif()
 
-# Ensure C++11 builds
+# Ensure C++17 builds
 set_property(TARGET recombinant PROPERTY CXX_STANDARD 17)
 
 # Link against Python dev libraries and wxwidgets
