@@ -10,7 +10,7 @@ namespace recombinant
 {
 namespace api
 {
-    LocalFileSource::LocalFileSource(std::filesystem::path)
+    LocalFileSource::LocalFileSource(path)
     {
         root         = std::unique_ptr<Entity>(new Entity);
         root->name = "Local";
