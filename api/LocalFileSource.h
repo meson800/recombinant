@@ -2,7 +2,7 @@
 
 #ifndef __GNUC__
 #include <filesystem>
-#elif
+#else
 #include <experimental/filesystem>
 #endif
 
@@ -23,7 +23,7 @@ namespace api
 #ifndef __GNUC__
         /// Initalizes this LocalFileSource using a filesystem path
         LocalFileSource(std::filesystem::path);
-#elif
+#else
         LocalFileSource(std::experimential::filesystem::path);
 #endif
     };

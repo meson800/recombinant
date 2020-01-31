@@ -2,8 +2,8 @@
 
 #ifndef __GNUC__
 using namespace std::filesystem;
-#elif
-using namespace std::experimential::filesystem;
+#else
+namespace std::experimential::filesystem;
 #endif
 
 namespace recombinant
