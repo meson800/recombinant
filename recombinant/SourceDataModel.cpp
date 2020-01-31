@@ -63,7 +63,8 @@ void SourceDataModel::GetValue(
 {
     if (!wxItem.IsOk())
     {
-        val.Convert("Root");
+        char* root_name = "Root";
+        val.Convert(root_name);
         return;
     }
 
