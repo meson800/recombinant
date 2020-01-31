@@ -3,7 +3,7 @@
 #ifndef __GNUC__
 using namespace std::filesystem;
 #else
-namespace std::experimental::filesystem;
+using namespace std::experimental::filesystem;
 #endif
 
 namespace recombinant
