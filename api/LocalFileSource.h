@@ -24,7 +24,7 @@ namespace api
         /// Initalizes this LocalFileSource using a filesystem path
         LocalFileSource(std::filesystem::path);
 #else
-        LocalFileSource(std::experimential::filesystem::path);
+        LocalFileSource(std::experimental::filesystem::path);
 #endif
     };
 
