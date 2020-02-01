@@ -1,11 +1,5 @@
 #pragma once
 
-#ifndef __GNUC__
-#include <filesystem>
-#else
-#include <experimental/filesystem>
-#endif
-
 #include "Source.h"
 
 namespace recombinant
@@ -20,12 +14,8 @@ namespace api
     class LocalFileSource : public Source
     {
     public:
-#ifndef __GNUC__
-        /// Initalizes this LocalFileSource using a filesystem path
-        LocalFileSource(std::filesystem::path);
-#else
-        LocalFileSource(std::experimental::filesystem::path);
-#endif
+        /// Initalizes this LocalFileSource using a string for the path
+        LocalFileSource(std::string path);
     };
 
 }  // namespace api

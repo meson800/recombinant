@@ -9,9 +9,13 @@ add_executable(test_api tests.cpp $<TARGET_OBJECTS:recombinant_api_obj>)
 set_property(TARGET recombinant_api_obj PROPERTY CXX_STANDARD 17)
 set_property(TARGET test_api PROPERTY CXX_STANDARD 17)
 
-# Fixup dumb G++ < 8 problem with the filesystem library
-if (CMAKE_CXX_COMPILER_ID STREQUAL GNU)
-    target_link_libraries(recombinant_api_obj stdc++fs)
-    target_link_libraries(test_api stdc++fs)
+# On linux and mac, use the oldschool filesystem libraries
+if (PLATFORM_ID MATCHES Linux AND CXX_COMPILER_VERSION VERSION_LESS 9.0)
+  add_compile_definitions(OLDSCHOOL_FILESYSTEM)
 endif()
+
+if (PLATFORM_ID MATCHES Darwin AND CXX_COMPILER_VERSION VERSION_LESS 9.0)
+  add_compile_definitions(OLDSCHOOL_FILESYSTEM)
+endif()
+
 doctest_discover_tests(test_api)

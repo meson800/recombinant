@@ -1,19 +1,22 @@
 #include "LocalFileSource.h"
 
-#ifndef __GNUC__
-using namespace std::filesystem;
+#ifndef OLDSCHOOL_FILESYSTEM
+#include <filesystem>
 #else
-using namespace std::experimental::filesystem;
 #endif
 
 namespace recombinant
 {
 namespace api
 {
-    LocalFileSource::LocalFileSource(path)
+    LocalFileSource::LocalFileSource(std::string path)
     {
+#ifndef OLDSCHOOL_FILESYSTEM
+        std::filesystem::path fspath(path);
+#endif
+
         root         = std::unique_ptr<Entity>(new Entity);
-        root->name = "Local";
+        root->name   = "Local";
         root->parent = nullptr;
         root->type   = Entity::Type::Container;
     }
